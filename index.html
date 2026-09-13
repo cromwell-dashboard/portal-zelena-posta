@@ -589,9 +589,10 @@
   .doc-row { display: grid; gap: 22px; padding: 20px; }
   @media (min-width: 1200px) {
     .doc-row.has-doc { grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); gap: 26px; align-items: start; }
-    .doc-row.has-doc .addr-col { border-left: 1px solid var(--border-soft); padding-left: 26px; }
+    .doc-row.has-doc .addr-col { border-left: 1px solid var(--border); padding-left: 26px; }
   }
   .doc-col, .addr-col { min-width: 0; }
+  .cfg-section { border-top: 1px solid var(--border); margin-top: 22px; padding-top: 20px; }
   .sec-label {
     display: flex; align-items: center; gap: 9px; margin-bottom: 14px;
     font-family: 'Bricolage Grotesque','Inter',sans-serif; font-size: 14.5px; font-weight: 700; color: var(--text);
@@ -1351,23 +1352,15 @@
                 </select>
                 <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">Podľa krajiny sa automaticky vypočíta poštovné.</div>
               </div>
-              </div><!-- /addr-col -->
-            </div><!-- /doc-row -->
-          </div>
 
-          <!-- Step 3: Configuration -->
-          <div class="card">
-            <div class="card-header">
-              <div>
-                <div class="card-title">3. Typ tlače a poštovné</div>
-                <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Vyberte parametre a cena sa okamžite prepočíta.</div>
-              </div>
-            </div>
-            <div class="card-body">
+              <!-- Krok 3 nasleduje hneď pod adresou, v tom istom stĺpci -->
+              <div class="cfg-section">
+                <div class="sec-label" style="margin-top:4px;"><b>3</b> Typ tlače a poštovné</div>
+                <div style="font-size:12px;color:var(--text-muted);margin:-8px 0 14px 30px;">Vyberte parametre a cena sa okamžite prepočíta.</div>
 
               <!-- 3.1 Print type -->
               <div class="cfg-group">
-                <div class="cfg-label"><span class="cfg-num">1</span> Typ tlače
+                <div class="cfg-label">Typ tlače
                   <span class="tooltip-wrap"><span class="tooltip-icon">i</span><span class="tooltip-box">Farebná tlač je vhodná pre dokumenty s logom a obrázkami</span></span>
                 </div>
                 <div class="cfg-grid cfg-2">
@@ -1382,7 +1375,7 @@
 
               <!-- 3.2 Postage -->
               <div class="cfg-group" style="margin-bottom:0;">
-                <div class="cfg-label"><span class="cfg-num">2</span> Druh poštovného</div>
+                <div class="cfg-label">Druh poštovného</div>
                 <div class="cfg-grid cfg-2">
                   <div class="cfg-option selected" data-g="post" data-v="ordinary" onclick="pickCfg(this)">
                     <div class="cfg-icon">✉</div><div class="cfg-name">Obyčajný list</div>
@@ -1402,8 +1395,10 @@
                   <span class="tooltip-wrap" style="margin-left:auto;"><span class="tooltip-icon">i</span><span class="tooltip-box">Dostupné len pri doporučenom liste</span></span>
                 </div>
               </div>
+              </div><!-- /cfg-section -->
 
-            </div>
+              </div><!-- /addr-col -->
+            </div><!-- /doc-row -->
           </div>
         </div>
 
