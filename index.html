@@ -24,65 +24,100 @@
     --text-faint: #8A9384;
     --border: #E3E8DA;
     --border-soft: #EEF1E7;
-    --bg: #F4F7EF;
+    --bg: #F6F9F2;
     --white: #ffffff;
     --danger: #C43D2B;
     --danger-light: #FBEBE8;
     --info: #2563eb;
     --info-light: #eff6ff;
     --shadow: 0 1px 2px rgba(28,61,18,.05), 0 10px 30px rgba(28,61,18,.07);
+    /* --- Dizajnová vrstva podľa prototypu „Neadresné doručovanie" --- */
+    --side-top: #2E6D2A;      /* bočné menu — horná zelená */
+    --side-bot: #1B4718;      /* bočné menu — spodná zelená */
+    --lime: #A8DC63;          /* akcent aktívnej položky menu */
+    --sand: #EFE7D2;          /* pieskový panel kreditu */
+    --sand-btn: #E8C88C;      /* pieskové tlačidlo */
+    --sand-ink: #5A4318;      /* text na piesku */
+    --hero-a: #23611A;        /* gradientový blok — tmavý koniec */
+    --hero-b: #3C851F;
+    --hero-c: #59A62C;        /* gradientový blok — svetlý koniec */
+    --card-radius: 14px;
+    --shadow-soft: 0 1px 2px rgba(28,61,18,.04), 0 6px 22px rgba(28,61,18,.06);
   }
   body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; font-size: 14px; font-feature-settings: "tnum" 1; -webkit-font-smoothing: antialiased; }
   h1,h2,h3,h4,.card-title,.topbar-title,.zt-hero h2,.summary-header,.logo-text { font-family: 'Bricolage Grotesque', 'Inter', sans-serif; }
 
-  /* SIDEBAR */
+  /* ============ SIDEBAR ============ */
   .sidebar {
-    width: 250px; min-width: 250px; background: linear-gradient(180deg, var(--green-ink) 0%, var(--green-dark) 140%); color: white;
+    width: 262px; min-width: 262px;
+    background: linear-gradient(180deg, var(--side-top) 0%, var(--side-bot) 100%);
+    color: white;
     display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100;
     overflow-y: auto;
   }
   /* Deti sidebaru sa nesmú zmršťovať — inak sa pri nízkom okne skryjú kľúčové položky namiesto rolovania */
   .sidebar > * { flex-shrink: 0; }
-  .sidebar-logo {
-    padding: 20px 18px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  .sidebar-logo .logo-text { font-size: 17px; font-weight: 700; color: #fff; }
-  .sidebar-logo .logo-sub { font-size: 11px; color: rgba(255,255,255,0.55); margin-top: 2px; }
+  .sidebar-logo { padding: 22px 18px 16px; }
+  .sidebar-logo .logo-text { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -.015em; }
+  .sidebar-logo .logo-sub { font-size: 11.5px; color: rgba(255,255,255,0.58); margin-top: 2px; }
 
+  /* Pieskový panel kreditu */
   .credit-box {
-    margin: 14px 12px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 8px;
-    padding: 12px 14px;
+    margin: 16px 12px 10px;
+    background: var(--sand);
+    border: none;
+    border-radius: 12px;
+    padding: 14px 16px;
   }
-  .credit-label { font-size: 11px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.05em; }
-  .credit-amount { font-size: 24px; font-weight: 700; color: #fff; margin: 3px 0; }
+  .credit-label { font-size: 10.5px; color: #6E6449; text-transform: uppercase; letter-spacing: 0.07em; font-weight: 700; }
+  .credit-amount {
+    font-family: 'Bricolage Grotesque', 'Inter', sans-serif;
+    font-size: 27px; font-weight: 700; color: #24401A; margin: 4px 0 2px; letter-spacing: -.02em;
+  }
   .credit-btn {
-    display: block; width: 100%; margin-top: 8px;
-    background: var(--accent); color: #fff; border: none; border-radius: 5px;
-    padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center;
+    display: block; width: 100%; margin-top: 10px;
+    background: var(--sand-btn); color: var(--sand-ink); border: none; border-radius: 8px;
+    padding: 9px 10px; font-size: 12.5px; font-weight: 700; cursor: pointer; text-align: center;
+    font-family: inherit; transition: filter .15s;
   }
-  .credit-btn:hover { background: #cf9c25; }
+  .credit-btn:hover { filter: brightness(0.95); }
+  .credit-extra { margin: 0 12px 4px; }
 
   .nav-section-label {
-    padding: 12px 18px 4px;
-    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.35);
+    padding: 14px 20px 6px;
+    font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.45);
   }
   .nav-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 9px 18px; cursor: pointer; border-radius: 0;
-    color: rgba(255,255,255,0.75); font-size: 13.5px;
-    transition: background 0.15s;
-    border-left: 3px solid transparent;
-    text-decoration: none;
+    display: flex; align-items: center; gap: 11px;
+    padding: 10px 13px; cursor: pointer; border-radius: 9px;
+    color: rgba(255,255,255,0.78); font-size: 13.5px; line-height: 1.35;
+    transition: background 0.15s, color 0.15s;
+    text-decoration: none; position: relative;
   }
-  .nav-item:hover { background: rgba(255,255,255,0.07); color: #fff; }
-  .nav-item.active { background: rgba(255,255,255,0.12); color: #fff; border-left-color: var(--accent); font-weight: 600; }
-  .nav-item.secondary { color: rgba(255,255,255,0.45); font-size: 13px; }
-  .nav-item.secondary:hover { color: rgba(255,255,255,0.7); }
+  .nav-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .nav-item.active { background: rgba(255,255,255,0.14); color: #fff; font-weight: 600; }
+  /* Svetlozelený prúžok pri aktívnej položke */
+  .nav-item.active::before {
+    content: ''; position: absolute; left: -6px; top: 8px; bottom: 8px; width: 3px;
+    border-radius: 2px; background: var(--lime);
+  }
+  .nav-item.secondary { color: rgba(255,255,255,0.62); font-size: 13px; margin: 0 12px; }
+  .nav-item.secondary:hover { color: #fff; }
+  .nav-item.secondary.active::before { left: -6px; }
+
+  /* Štítky v menu (Firmy / Nové) */
+  .nav-badge {
+    margin-left: auto; font-size: 10px; border-radius: 5px; padding: 2px 7px;
+    font-weight: 700; flex-shrink: 0; line-height: 1.5;
+  }
+  .nav-badge.firm { background: #E9CE9B; color: #5A4318; }
+  .nav-badge.new  { background: #CBE6A6; color: #24501A; }
+  .sidebar .tooltip-icon {
+    width: 16px; height: 16px; border-radius: 5px;
+    background: rgba(255,255,255,0.16); color: #fff; font-size: 10px; font-weight: 700;
+  }
+
   /* Značka novej faktúry v menu */
   .nav-dot {
     display: none; margin-left: auto; min-width: 18px; height: 18px; padding: 0 5px;
@@ -92,25 +127,25 @@
   }
   .nav-dot.show { display: inline-flex; animation: dotPulse 2s ease-in-out infinite; }
   @keyframes dotPulse { 0%,100% { box-shadow: 0 0 0 3px rgba(196,61,43,.25); } 50% { box-shadow: 0 0 0 6px rgba(196,61,43,0); } }
-  .nav-icon { width: 16px; text-align: center; flex-shrink: 0; }
+  .nav-icon { width: 18px; text-align: center; flex-shrink: 0; opacity: .92; }
 
   /* Zvýraznená kľúčová sekcia Odosielanie */
-  .send-section-label { color: #fff; opacity: .92; padding-top: 16px; font-size: 11px; }
+  .send-section-label { color: rgba(255,255,255,0.62); padding-top: 6px; font-size: 10.5px; }
   .send-nav-group {
-    margin: 4px 10px 6px; padding: 4px 0;
-    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 10px; overflow: hidden;
+    margin: 4px 12px 8px; padding: 6px;
+    background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.11);
+    border-radius: 14px; overflow: visible;
   }
-  .nav-item.primary-send { font-size: 14.5px; padding-top: 11px; padding-bottom: 11px; color: rgba(255,255,255,0.92); }
+  .nav-item.primary-send { font-size: 13.5px; padding-top: 10px; padding-bottom: 10px; color: rgba(255,255,255,0.88); }
   .nav-item.primary-send .nav-icon { font-size: 15px; }
 
-  .sidebar-bottom { margin-top: auto; padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .sidebar-bottom { margin-top: auto; padding: 12px; border-top: 1px solid rgba(255,255,255,0.12); }
   .user-info { display: flex; align-items: center; gap: 10px; padding: 6px; }
-  .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--green-mid); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
-  .user-name { font-size: 12px; color: rgba(255,255,255,0.8); }
-  .user-email { font-size: 11px; color: rgba(255,255,255,0.4); }
+  .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.16); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+  .user-name { font-size: 12px; color: rgba(255,255,255,0.85); }
+  .user-email { font-size: 11px; color: rgba(255,255,255,0.45); }
 
-  /* Prepínač jazyka (SK/EN) */
+  /* Prepínač jazyka (SK/EN/HU) */
   .lang-switch { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
   .lang-btn {
     background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
@@ -120,24 +155,75 @@
   .lang-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
   .lang-btn.active { background: #fff; color: var(--green-dark); border-color: #fff; }
 
-  /* MAIN CONTENT */
-  .main { margin-left: 250px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+  /* ============ MAIN CONTENT ============ */
+  .main { margin-left: 262px; flex: 1; min-width: 0; display: flex; flex-direction: column; min-height: 100vh; }
   .topbar {
-    background: var(--white); border-bottom: 1px solid var(--border);
-    padding: 0 28px; height: 52px; display: flex; align-items: center; justify-content: space-between;
+    background: var(--white); border-bottom: 1px solid var(--border-soft);
+    padding: 0 28px; height: 58px; display: flex; align-items: center; justify-content: space-between;
     position: sticky; top: 0; z-index: 50;
   }
-  .topbar-title { font-size: 15px; font-weight: 600; color: var(--text); }
+  .topbar-title { font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -.01em; }
+  /* Drobček pred názvom stránky: „Odosielanie / Odoslať list" */
+  .crumb { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; color: var(--text-faint); }
+  .crumb::after { content: ' /'; margin: 0 6px 0 0; }
   .topbar-actions { display: flex; gap: 10px; align-items: center; }
+  .proto-pill {
+    border: 1px solid #CFE3BD; background: #fff; color: var(--green-dark);
+    border-radius: 999px; padding: 6px 15px; font-size: 12px; font-weight: 600; white-space: nowrap;
+  }
+
+  /* ============ KROKOVÝ NAVIGÁTOR V ZELENOM BLOKU ============ */
+  .step-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .step-chip {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.10); border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 999px; padding: 6px 15px 6px 7px; font-size: 13px; color: rgba(255,255,255,0.68);
+  }
+  .step-chip b { width: 20px; height: 20px; border-radius: 50%; background: rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; font-size: 11.5px; font-weight: 700; }
+  .step-chip.done { color: #fff; background: rgba(255,255,255,0.16); }
+  .step-chip.done b { background: var(--lime); color: var(--green-ink); }
+  .step-chip.now { color: var(--green-ink); background: #fff; border-color: #fff; font-weight: 600; }
+  .step-chip.now b { background: var(--green-dark); color: #fff; }
+  .step-now { font-size: 14px; line-height: 1.5; color: rgba(255,255,255,0.95); }
+
+  /* ============ ŽIVÝ KONTROLNÝ SÚHRN ============ */
+  .live-check { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .lc-row { display: flex; align-items: flex-start; gap: 9px; font-size: 12.5px; line-height: 1.4; }
+  .lc-mark { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; margin-top: 1px; }
+  .lc-row.on .lc-mark { background: var(--green); color: #fff; }
+  .lc-row.off .lc-mark { background: var(--border); color: var(--text-faint); }
+  .lc-row.on b { color: var(--text); font-weight: 600; }
+  .lc-row.off b { color: var(--text-faint); font-weight: 600; }
+  .lc-detail { display: block; color: var(--text-muted); font-size: 11.5px; margin-top: 1px; }
+
+  /* ============ OBNOVENÁ ROZPRACOVANÁ OBJEDNÁVKA ============ */
+  .draft-notice {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    background: var(--sand); border-radius: 12px; padding: 12px 16px; margin-bottom: 16px;
+    font-size: 13px; color: #5A4318; line-height: 1.45;
+  }
+  .draft-notice > span { flex: 1; min-width: 200px; }
+
+  /* ============ ZELENÉ GRADIENTOVÉ BLOKY ============ */
+  .hero-block {
+    background: linear-gradient(100deg, var(--hero-a) 0%, var(--hero-b) 52%, var(--hero-c) 100%);
+    border-radius: 18px; padding: 26px 30px; color: #fff;
+    box-shadow: 0 8px 26px rgba(28,61,18,.18);
+  }
+  .hero-note {
+    display: inline-block; background: rgba(255,255,255,0.13);
+    border: 1px solid rgba(255,255,255,0.22); border-radius: 10px;
+    padding: 11px 17px; font-size: 13.5px; line-height: 1.55; color: rgba(255,255,255,0.96);
+  }
 
   .page { display: none; flex-direction: column; flex: 1; }
   .page.active { display: flex; }
   .page-body { padding: 24px 28px; flex: 1; }
 
   /* BUTTONS */
-  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: background 0.15s, transform 0.1s; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: background 0.15s, transform 0.1s; }
   .btn:active { transform: scale(0.98); }
-  .btn-primary { background: linear-gradient(150deg, var(--green) 0%, var(--green-dark) 100%); color: white; box-shadow: 0 2px 8px rgba(91,168,43,.3); }
+  .btn-primary { background: linear-gradient(115deg, var(--hero-b) 0%, var(--hero-c) 100%); color: white; box-shadow: 0 2px 8px rgba(91,168,43,.3); }
   .btn-primary:hover { filter: brightness(1.08); }
   .btn-secondary { background: white; color: var(--text); border: 1px solid var(--border); }
   .btn-secondary:hover { background: var(--bg); }
@@ -146,14 +232,14 @@
   .btn-danger-ghost:hover { background: var(--danger-light); }
 
   /* CARDS */
-  .card { background: white; border-radius: 10px; border: 1px solid var(--border); }
+  .card { background: white; border-radius: var(--card-radius); border: 1px solid var(--border); box-shadow: var(--shadow-soft); }
   .card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
-  .card-title { font-size: 14px; font-weight: 600; }
+  .card-title { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
   .card-body { padding: 20px; }
 
   /* STAT CARDS */
   .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
-  .stat-card { background: white; border-radius: 10px; border: 1px solid var(--border); padding: 16px 18px; }
+  .stat-card { background: white; border-radius: 12px; border: 1px solid var(--border); padding: 16px 18px; }
   .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
   .stat-value { font-size: 22px; font-weight: 700; color: var(--text); }
   .stat-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
@@ -246,7 +332,7 @@
   .file-remove { margin-left: auto; background: none; border: none; cursor: pointer; color: var(--text-muted); font-size: 16px; }
 
   .form-section { margin-bottom: 18px; }
-  .form-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 8px; display: block; }
+  .form-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 8px; display: block; }
   .form-input {
     width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 6px;
     font-size: 13.5px; font-family: inherit; color: var(--text); outline: none;
@@ -289,7 +375,7 @@
   .print-price { font-size: 11px; color: var(--text-muted); }
 
   /* Order summary */
-  .order-summary { background: white; border-radius: 10px; border: 1px solid var(--border); position: sticky; top: 70px; }
+  .order-summary { background: white; border-radius: var(--card-radius); border: 1px solid var(--border); box-shadow: var(--shadow-soft); position: sticky; top: 70px; }
   .summary-header { padding: 14px 18px; border-bottom: 1px solid var(--border); font-size: 13px; font-weight: 700; }
   .summary-body { padding: 16px 18px; }
   .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 13px; }
@@ -297,7 +383,7 @@
   .summary-row .muted { color: var(--text-muted); }
   .send-btn { display: block; width: 100%; margin-top: 14px; padding: 13px; background: linear-gradient(150deg, var(--green) 0%, var(--green-dark) 100%); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; text-align: center; font-family: 'Bricolage Grotesque', sans-serif; box-shadow: 0 4px 12px rgba(91,168,43,.32); }
   .send-btn:hover:not(:disabled) { filter: brightness(1.08); }
-  .send-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+  .send-btn:disabled { background: #9ca3af; cursor: not-allowed; box-shadow: none; }
 
   .sender-box { background: var(--green-light); border: 1px solid #a7d7b5; border-radius: 8px; padding: 12px 14px; display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
   .sender-name { font-size: 13px; font-weight: 600; }
@@ -305,7 +391,7 @@
   .sender-change { font-size: 12px; color: var(--green); text-decoration: none; cursor: pointer; font-weight: 600; }
 
   /* TABLE */
-  .table-wrap { overflow-x: auto; }
+  .table-wrap { overflow-x: auto; min-width: 0; max-width: 100%; }
   table { width: 100%; border-collapse: collapse; }
   th { text-align: left; padding: 9px 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); border-bottom: 1px solid var(--border); background: var(--bg); }
   td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; vertical-align: middle; }
@@ -364,8 +450,8 @@
   .tab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 700; }
 
   /* ZELENÁ TLAČIAREŇ */
-  .zt-hero { background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-ink) 100%); color: white; border-radius: 12px; padding: 28px 32px; margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center; }
-  .zt-hero h2 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+  .zt-hero { background: linear-gradient(100deg, var(--hero-a) 0%, var(--hero-b) 52%, var(--hero-c) 100%); color: white; border-radius: 18px; padding: 28px 32px; box-shadow: 0 8px 26px rgba(28,61,18,.18); margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center; }
+  .zt-hero h2 { font-size: 27px; font-weight: 700; margin-bottom: 8px; letter-spacing: -.02em; }
   .zt-hero p { font-size: 14px; opacity: 0.85; max-width: 480px; line-height: 1.5; }
   .zt-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 600; margin-bottom: 12px; display: inline-block; }
   /* Kroky 1–2 tvoria jednu činnosť (šablóna), krok 3 je oddelený vpravo */
@@ -481,6 +567,25 @@
 
   /* Tooltip */
   .tooltip-wrap { position: relative; display: inline-flex; align-items: center; gap: 4px; cursor: help; }
+  /* Texty, ktoré sa líšia na počítači a na mobile (Linda: dropzóna) */
+  /* Texty, ktoré sa líšia na počítači a na mobile (pripomienka k dropzóne) */
+  .only-mob { display: none !important; }
+  /* Popisok v tlačidle nesmie zdediť sivú farbu a blokové zalomenie z .dz-hint-text span */
+  .dz-hint-text .btn span { color: inherit; font-size: inherit; line-height: inherit; display: inline; }
+  .dz-hint-text .btn span.only-mob { display: none; }
+
+  /* Podtext pri službách v menu — rozdiel má byť vidieť, nie skrytý v tooltipe */
+  .nav-txt { flex: 1; min-width: 0; }
+  .nav-sub { display: block; font-style: normal; font-size: 11px; line-height: 1.35; color: rgba(255,255,255,0.52); margin-top: 3px; }
+  .nav-item.active .nav-sub { color: rgba(255,255,255,0.72); }
+
+  /* Tip na hromadné odosielanie (zatvárateľný) */
+  .bulk-tip { background: #fff; border: 1px solid #CFE3BD; border-radius: var(--card-radius); padding: 16px 18px; position: relative; box-shadow: var(--shadow-soft); }
+  .bulk-tip h4 { font-family: 'Bricolage Grotesque','Inter',sans-serif; font-size: 14px; font-weight: 700; color: var(--green-dark); margin-bottom: 5px; }
+  .bulk-tip p { font-size: 12.5px; line-height: 1.5; color: var(--text-muted); margin-bottom: 12px; }
+  .bulk-tip .tip-x { position: absolute; top: 10px; right: 12px; background: none; border: none; color: var(--text-faint); font-size: 16px; cursor: pointer; line-height: 1; padding: 2px 4px; }
+  .bulk-tip .tip-x:hover { color: var(--text); }
+
   .tooltip-icon { width: 14px; height: 14px; border-radius: 50%; background: var(--border); color: var(--text-muted); font-size: 10px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; }
   .tooltip-box { display: none; position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); background: #1f2937; color: white; padding: 6px 10px; border-radius: 6px; font-size: 11px; white-space: nowrap; z-index: 200; pointer-events: none; }
   .tooltip-wrap:hover .tooltip-box { display: block; }
@@ -681,23 +786,126 @@
     display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 99;
   }
 
+  /* ============ HISTÓRIA AKO KARTY (mobil) ============ */
+  .ship-cards { display: none; flex-direction: column; gap: 10px; padding: 14px; }
+  .ship-card { border: 1px solid var(--border); border-radius: 12px; padding: 13px 14px; background: #fff; }
+  .ship-card.clickable { cursor: pointer; }
+  .ship-card.cancelled { opacity: .55; }
+  .sc-top { display: flex; align-items: flex-start; gap: 10px; }
+  .sc-top .ship-icon, .sc-top svg { flex-shrink: 0; }
+  .sc-main { flex: 1; min-width: 0; }
+  .sc-name { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.3; }
+  .sc-sub { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; line-height: 1.35; }
+  .sc-price { font-size: 14px; font-weight: 700; color: var(--text); white-space: nowrap; }
+  .sc-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 10px; }
+  .sc-date { font-size: 11.5px; color: var(--text-muted); margin-left: auto; white-space: nowrap; }
+  .sc-track { font-size: 11.5px; margin-top: 8px; }
+  .sc-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 11px; }
+  .sc-actions .btn { flex: 1; justify-content: center; min-width: 110px; }
+  .sc-select { display: flex; align-items: center; gap: 7px; font-size: 11.5px; color: var(--text-muted); margin-top: 10px; cursor: pointer; }
+  .sc-children { margin-top: 11px; border-top: 1px dashed var(--border); padding-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+  .sc-child { display: flex; align-items: center; gap: 8px; font-size: 12.5px; }
+  .sc-child .nm { flex: 1; min-width: 0; }
+  .sc-more { font-size: 11.5px; color: var(--text-muted); margin-top: 8px; }
+
+  /* ============ MOBILNÁ NAVIGÁCIA ============ */
+  /* Zostatok kreditu patrí na mobile do hlavičky, nie do skrytého menu */
+  .mob-credit {
+    display: none; align-items: center; gap: 6px;
+    background: var(--sand); color: var(--sand-ink); border: none; border-radius: 999px;
+    padding: 6px 13px; font-size: 12.5px; font-weight: 700; font-family: inherit;
+    cursor: pointer; white-space: nowrap;
+  }
+
+  /* Spodná lišta — celá ponuka je dostupná bez hamburgera */
+  #mobTabs {
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 95;
+    background: #fff; border-top: 1px solid var(--border);
+    padding: 5px 4px calc(5px + env(safe-area-inset-bottom, 0px));
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .mob-tab {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    padding: 6px 2px; font-size: 10.5px; color: var(--text-muted);
+    cursor: pointer; border-radius: 10px; text-align: center;
+  }
+  .mob-tab.active { color: var(--green-dark); font-weight: 700; background: var(--green-light); }
+  .mob-tab .ico { width: 20px; height: 20px; }
+  .mob-tab .dot { position: absolute; transform: translate(13px, -3px); width: 7px; height: 7px; border-radius: 50%; background: var(--danger); }
+
+  /* Vysúvací panel pre Platby a Účet */
+  #mobSheetOverlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 118; }
+  #mobSheet {
+    display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 119; background: #fff;
+    border-radius: 18px 18px 0 0; padding: 10px 14px calc(16px + env(safe-area-inset-bottom, 0px));
+    box-shadow: 0 -8px 30px rgba(0,0,0,.2);
+  }
+  body.sheet-open #mobSheet, body.sheet-open #mobSheetOverlay { display: block; }
+  .sheet-grip { width: 40px; height: 4px; border-radius: 2px; background: var(--border); margin: 0 auto 14px; }
+  .sheet-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); margin: 0 6px 8px; }
+  .sheet-item {
+    display: flex; align-items: center; gap: 12px; padding: 13px 10px; border-radius: 10px;
+    font-size: 14.5px; color: var(--text); cursor: pointer;
+  }
+  .sheet-item:active { background: var(--bg); }
+  .sheet-item .ico { width: 19px; height: 19px; color: var(--green-dark); flex-shrink: 0; }
+  .sheet-item .sub { display: block; font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+  .sheet-langs { display: flex; gap: 8px; padding: 6px 10px 2px; }
+  .sheet-lang { flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 10px; background: #fff; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--text-muted); cursor: pointer; }
+  .sheet-lang.active { border-color: var(--green); background: var(--green-light); color: var(--green-dark); }
+
+  /* Výber služby nad formulárom — klient vidí celú ponuku hneď */
+  #svcSwitch { display: none; margin-bottom: 16px; }
+  .svc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .svc {
+    background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 12px 12px;
+    font-size: 13.5px; font-weight: 600; color: var(--text); font-family: inherit;
+    cursor: pointer; text-align: left; line-height: 1.25;
+  }
+  .svc small { display: block; font-weight: 400; font-size: 11px; color: var(--text-muted); margin-top: 3px; line-height: 1.35; }
+  .svc.active { border-color: var(--green); background: var(--green-light); color: var(--green-dark); box-shadow: 0 0 0 2px rgba(91,168,43,.18); }
+
   /* ============ RESPONSIVE / MOBILE (≤ 820px) ============ */
   @media (max-width: 820px) {
-    /* Sidebar becomes a slide-in drawer */
-    #mobileMenuBtn { display: flex; }
-    .sidebar {
-      width: 264px; min-width: 264px;
-      transform: translateX(-100%); transition: transform .25s ease;
-      overflow-y: auto; box-shadow: 0 0 40px rgba(0,0,0,.35);
-    }
-    body.nav-open .sidebar { transform: translateX(0); }
-    body.nav-open #navOverlay { display: block; }
-    body.nav-open #mobileMenuBtn { display: none; }
+    /* Hamburger aj bočné menu na mobile úplne odpadajú — všetko má vlastnú cestu */
+    #mobileMenuBtn, #navOverlay { display: none !important; }
+    .sidebar { display: none; }
     .main { margin-left: 0; }
+    body { padding-bottom: 74px; }   /* miesto pre spodnú lištu */
+    #mobTabs { display: grid; }
+    .mob-credit { display: inline-flex; }
+    #svcSwitch.on { display: block; }
+    /* Tabuľku zásielok nahradia karty — na dotyk sa v nej nedá rozumne pracovať */
+    #page-batches .table-wrap { display: none; }
+    #shipCards { display: flex; }
 
-    /* Topbar makes room for the hamburger */
-    .topbar { padding: 0 14px 0 56px; height: 50px; }
-    .topbar-title { font-size: 14px; }
+
+    /* Na dotykovom zariadení sa nedá nič ťahať — text aj animácia sa menia */
+    .only-desk { display: none !important; }
+    .dz-hint-text b.only-mob, .dz-hint-text span.only-mob { display: block !important; }
+    .dz-hint-text .btn span.only-desk { display: none; }
+    .dz-hint-text .btn span.only-mob { display: inline; }
+    .dz-anim { display: none !important; }
+    .dropzone { padding: 22px 16px !important; }
+    .dz-hint-text b { font-size: 16px; }
+
+    /* Hlavička sa na úzkej obrazovke zalomí do dvoch riadkov,
+       aby tlačidlá nikdy netlačili obsah mimo displeja. */
+    .topbar { padding: 8px 14px; height: auto; min-height: 54px; gap: 8px; flex-wrap: wrap; }
+    .topbar-title { font-size: 14.5px; flex: 1 1 auto; min-width: 110px; }
+    .topbar-actions { flex: 0 1 auto; min-width: 0; flex-wrap: wrap; justify-content: flex-end; }
+    .topbar-actions .btn { padding: 6px 10px; font-size: 12px; }
+    /* Dvojstĺpcové rozloženia s pevnou šírkou pravého panela tiež pod seba */
+    [style*="grid-template-columns:1fr 200px"],
+    [style*="grid-template-columns:1fr 220px"],
+    [style*="grid-template-columns:1fr 240px"],
+    [style*="grid-template-columns:1fr 260px"],
+    [style*="grid-template-columns:1fr 280px"],
+    [style*="grid-template-columns:1fr 300px"],
+    [style*="grid-template-columns:1fr 320px"],
+    [style*="grid-template-columns:1fr 340px"] { grid-template-columns: 1fr !important; }
+    .crumb { display: none; }
+    .proto-pill { display: none; }
     .topbar-actions { gap: 6px; }
     .page-body { padding: 16px 14px; }
 
@@ -755,6 +963,7 @@
     .form-row-3 { grid-template-columns: 1fr !important; }
     .tabs { overflow-x: auto; }
     .zt-hero h2 { font-size: 17px; }
+    .svc { padding: 11px 10px; font-size: 13px; }
   }
 </style>
 </head>
@@ -763,6 +972,43 @@
 <!-- MOBILE NAV -->
 <button id="mobileMenuBtn" onclick="toggleNav()" aria-label="Otvoriť menu"><svg class="ico ico-24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 <div id="navOverlay" onclick="closeNav()"></div>
+
+<!-- Výber služby nad formulárom (mobil). Presúva sa do práve otvorenej stránky. -->
+<div id="svcSwitch">
+  <div class="svc-grid">
+    <button class="svc" data-svc="send" onclick="mobPickSvc('send')">Odoslať 1 list<small>Adresu zadáte ručne</small></button>
+    <button class="svc" data-svc="zt" onclick="mobPickSvc('zt')">Viac listov naraz<small>Adresy načítame z PDF</small></button>
+    <button class="svc" data-svc="parcel" onclick="mobPickSvc('parcel')">Balík<small>Kuriér alebo výdajný box</small></button>
+    <button class="svc" data-svc="signed" onclick="mobPickSvc('signed')">Podpísaný dokument<small>Fyzický originál</small></button>
+  </div>
+</div>
+
+<!-- Spodná lišta (mobil) -->
+<nav id="mobTabs">
+  <a class="mob-tab" id="mtab-send" onclick="showPage('send')">
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1.5"/><path d="M3.6 7.2 12 13.2l8.4-6"/></svg>
+    Odoslať
+  </a>
+  <a class="mob-tab" id="mtab-history" onclick="showPage('batches')">
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v5l3.2 2"/><circle cx="12" cy="12" r="8.4"/></svg>
+    História
+  </a>
+  <a class="mob-tab" id="mtab-pay" onclick="openSheet('pay')">
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10.5h18"/></svg>
+    Platby<span class="dot" id="mtabPayDot" style="display:none;"></span>
+  </a>
+  <a class="mob-tab" id="mtab-acc" onclick="openSheet('acc')">
+    <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8.4" r="3.6"/><path d="M5 19.2a7 7 0 0 1 14 0"/></svg>
+    Účet
+  </a>
+</nav>
+
+<div id="mobSheetOverlay" onclick="closeSheet()"></div>
+<div id="mobSheet">
+  <div class="sheet-grip"></div>
+  <div class="sheet-title" id="sheetTitle"></div>
+  <div id="sheetBody"></div>
+</div>
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
@@ -778,26 +1024,26 @@
   <div class="nav-section-label send-section-label">Odosielanie</div>
   <div class="send-nav-group">
     <a class="nav-item primary-send active" onclick="showPage('send')" id="nav-send">
-      <span class="nav-icon"><svg class="ico ico-20" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1.5"/><path d="M3.6 7.2 12 13.2l8.4-6"/></svg></span> Odoslať jeden list
-      <span class="tooltip-wrap" style="margin-left:auto;" onclick="event.stopPropagation()">
+      <span class="nav-icon"><svg class="ico ico-20" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="1.5"/><path d="M3.6 7.2 12 13.2l8.4-6"/></svg></span> <span class="nav-txt">Odoslať jeden list<em class="nav-sub">Jedna zásielka • adresu zadáte ručne</em></span>
+      <span class="tooltip-wrap" onclick="event.stopPropagation()">
         <span class="tooltip-icon">i</span>
-        <span class="tooltip-box" style="white-space:normal;width:168px;right:0;left:auto;top:calc(100% + 6px);bottom:auto;transform:none;line-height:1.4;">Ak chcete zadať adresu manuálne</span>
+        <span class="tooltip-box" style="white-space:normal;width:168px;right:0;left:auto;top:calc(100% + 6px);bottom:auto;transform:none;line-height:1.4;">Podporovaný formát: PDF</span>
       </span>
     </a>
     <a class="nav-item primary-send" onclick="showPage('zt')" id="nav-zt">
-      <span class="nav-icon"><svg class="ico ico-20" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.8" y="9.4" width="13.8" height="9.8" rx="1.3"/><path d="M7.3 10.2 13.7 14.7l6.4-4.5"/><path d="M4.9 15.8V7.7a1.3 1.3 0 0 1 1.3-1.3h11.5"/><path d="M2.9 13.1V5.3A1.3 1.3 0 0 1 4.2 4h11.5"/></svg></span> Odoslať viac listov naraz
-      <span class="tooltip-wrap" style="margin-left:auto;" onclick="event.stopPropagation()">
+      <span class="nav-icon"><svg class="ico ico-20" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.8" y="9.4" width="13.8" height="9.8" rx="1.3"/><path d="M7.3 10.2 13.7 14.7l6.4-4.5"/><path d="M4.9 15.8V7.7a1.3 1.3 0 0 1 1.3-1.3h11.5"/><path d="M2.9 13.1V5.3A1.3 1.3 0 0 1 4.2 4h11.5"/></svg></span> <span class="nav-txt">Odoslať viac listov naraz<em class="nav-sub">Viac zásielok • adresy načítame z PDF</em></span>
+      <span class="tooltip-wrap" onclick="event.stopPropagation()">
         <span class="tooltip-icon">i</span>
-        <span class="tooltip-box" style="white-space:normal;width:168px;right:0;left:auto;top:calc(100% + 6px);bottom:auto;transform:none;line-height:1.4;">Efektívne riešenie, ak chcete údaje adresáta automaticky vyplniť.</span>
+        <span class="tooltip-box" style="white-space:normal;width:168px;right:0;left:auto;top:calc(100% + 6px);bottom:auto;transform:none;line-height:1.4;">Podporovaný formát: PDF</span>
       </span>
     </a>
     <a class="nav-item primary-send" onclick="showPage('parcel')" id="nav-parcel">
       <span class="nav-icon"><svg class="ico ico-20" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2 20.3 7.6v8.8L12 20.8 3.7 16.4V7.6L12 3.2z"/><path d="M3.7 7.6 12 12l8.3-4.4M12 12v8.8"/></svg></span> Odoslať balík
-      <span style="margin-left:auto;font-size:10px;background:rgba(231,181,60,0.3);color:#E7B53C;border-radius:3px;padding:1px 5px;font-weight:700;">Firmy</span>
+      <span class="nav-badge firm">Firmy</span>
     </a>
     <a class="nav-item primary-send" onclick="showPage('parcel', 'signed')" id="nav-signed">
       <span class="nav-icon"><svg class="ico ico-20" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.8 20.4h18.4"/><path d="M4.8 16.4c1.8 0 2.5-1.7 3.6-4.8s2.1-4.5 3.2-2.3.7 4.5 2.1 4.5"/><path d="M13.2 12.6l5.7-5.7a1.5 1.5 0 0 1 2.1 0l.2.2a1.5 1.5 0 0 1 0 2.1l-5.7 5.7-3.1.9.8-3.2z"/></svg></span> Odoslať podpísaný dokument
-      <span style="margin-left:auto;font-size:10px;background:rgba(231,181,60,0.3);color:#E7B53C;border-radius:3px;padding:1px 5px;font-weight:700;">Firmy</span>
+      <span class="nav-badge firm">Firmy</span>
     </a>
   </div>
   <div class="send-nav-group" style="margin-top:2px;">
@@ -810,9 +1056,11 @@
     <div class="credit-label">Zostatok kreditu</div>
     <div class="credit-amount">14,53 €</div>
     <button class="credit-btn" onclick="showPage('topup')">+ Dobiť kredit</button>
+  </div>
 
+  <div class="credit-extra">
     <!-- Zobrazí sa až po prekročení 300 € celkových výdavkov -->
-    <div id="invoiceOption" style="display:none;position:relative;margin-top:10px;padding:10px;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.22);border-radius:7px;">
+    <div id="invoiceOption" style="display:none;position:relative;margin-top:4px;padding:12px;background:linear-gradient(150deg,rgba(255,255,255,0.16),rgba(255,255,255,0.07));border:1px solid rgba(255,255,255,0.22);border-radius:10px;">
       <button onclick="closeInvoiceOption()" title="Skryť" style="position:absolute;top:5px;right:6px;background:none;border:none;color:rgba(255,255,255,0.6);font-size:13px;line-height:1;cursor:pointer;">✕</button>
       <div style="font-size:11px;color:#fff;font-weight:700;margin-bottom:3px;padding-right:14px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M8.4 12.3l2.6 2.6 4.6-5.4"/></svg> Máte nárok na platbu faktúrou</div>
       <div style="font-size:10.5px;color:rgba(255,255,255,0.72);line-height:1.45;margin-bottom:8px;">
@@ -822,7 +1070,7 @@
     </div>
 
     <!-- Zbalený stav po zatvorení -->
-    <button id="invoiceTipBtn" onclick="openInvoiceOption()" style="display:none;margin-top:10px;width:100%;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.22);border-radius:7px;padding:7px 10px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;text-align:center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 17.2h5.2M10.4 20h3.2"/><path d="M12 3.4a6 6 0 0 0-3.4 10.9v2.9h6.8v-2.9A6 6 0 0 0 12 3.4z"/></svg> Tip pre Vás</button>
+    <button id="invoiceTipBtn" onclick="openInvoiceOption()" style="display:none;margin-top:4px;width:100%;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.22);border-radius:10px;padding:7px 10px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;text-align:center;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.4 17.2h5.2M10.4 20h3.2"/><path d="M12 3.4a6 6 0 0 0-3.4 10.9v2.9h6.8v-2.9A6 6 0 0 0 12 3.4z"/></svg> Tip pre Vás</button>
   </div>
 
   <div class="nav-section-label" style="margin-top:8px;">Nastavenia</div>
@@ -865,15 +1113,29 @@
     <div class="page-body">
 
       <!-- ONBOARDING: čo môžete poslať -->
-      <div id="onboardBanner" style="background:linear-gradient(150deg,var(--green-dark) 0%,var(--green-ink) 100%);border-radius:14px;padding:20px 24px;margin-bottom:20px;color:#fff;box-shadow:0 4px 16px rgba(28,61,18,.3);">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+      <div id="onboardBanner" style="background:linear-gradient(100deg,var(--hero-a) 0%,var(--hero-b) 52%,var(--hero-c) 100%);border-radius:18px;padding:26px 30px;margin-bottom:20px;color:#fff;box-shadow:0 8px 26px rgba(28,61,18,.18);">
+        <!-- Uvítacie vysvetlenie — len pri prvej návšteve, potom sa už nezobrazí -->
+        <div id="onboardIntro" style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:22px;">
           <div style="flex:1;">
-            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:17px;margin-bottom:10px;">Vitajte! Čo dnes pošleme?</div>
-            <div style="font-size:13px;opacity:.9;line-height:1.5;margin-bottom:10px;">Vložte PDF a my ho <strong>vytlačíme, zabalíme a odošleme poštou za Vás</strong> — tak, ako by ste to urobili aj vy samy, ale s nami to máte bez chodenia na poštu.</div>
-            <div style="font-size:13px;opacity:.9;line-height:1.5;">Nižšie vyplnte adresáta, druh tlače, typ poštovného a cena sa Vám ihneď zobrazí.</div>
+            <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;letter-spacing:-.02em;margin-bottom:14px;">Vitajte! Čo dnes pošleme?</div>
+            <div class="hero-note">Vložte PDF a my ho <strong>vytlačíme, zabalíme a odošleme poštou za Vás</strong> — tak, ako by ste to urobili aj vy samy, ale s nami to máte bez chodenia na poštu.</div>
           </div>
-          <button onclick="document.getElementById('onboardBanner').style.display='none'" style="background:none;border:none;color:rgba(255,255,255,.6);font-size:18px;cursor:pointer;flex-shrink:0;" title="Skryť">✕</button>
+          <button onclick="dismissIntro()" style="background:none;border:none;color:rgba(255,255,255,.6);font-size:18px;cursor:pointer;flex-shrink:0;" title="Skryť">✕</button>
         </div>
+
+        <!-- Živý navigátor: hovorí, v ktorom kroku klient je a čo má urobiť teraz -->
+        <div class="step-chips">
+          <div class="step-chip now" id="stepChip1"><b>1</b> Dokument</div>
+          <div class="step-chip" id="stepChip2"><b>2</b> Adresát</div>
+          <div class="step-chip" id="stepChip3"><b>3</b> Nastavenie a odoslanie</div>
+        </div>
+        <div class="step-now" id="stepNow">Vložte PDF dokument, ktorý máme poslať.</div>
+      </div>
+
+      <!-- Obnovená rozpracovaná objednávka -->
+      <div class="draft-notice" id="draftNotice" style="display:none;">
+        <span id="draftNoticeText"></span>
+        <button class="btn btn-sec btn-sm" onclick="discardDraft()">Začať odznova</button>
       </div>
 
       <div class="send-layout">
@@ -899,10 +1161,12 @@
                   <div class="dz-cursor"><svg class="ico ico-20" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 3.6 18.8 11l-5.4 1.5-1.6 5.4L6.4 3.6z"/></svg></div>
                 </div>
                 <div class="dz-hint-text">
-                  <b>Potiahnite PDF sem — alebo ho vyberte z počítača</b>
-                  <span>Chyťte súbor v počítači a pustite ho priamo sem. Alebo kliknite kamkoľvek na tento rámec a vyberte PDF zo svojich súborov.<br>
+                  <b class="only-desk">Potiahnite PDF sem — alebo ho vyberte z počítača</b>
+                  <b class="only-mob">Nahrajte list, ktorý máme poslať</b>
+                  <span class="only-desk">Chyťte súbor v počítači a pustite ho priamo sem. Alebo kliknite kamkoľvek na tento rámec a vyberte PDF zo svojich súborov.<br>
                   Nahrajte list vo formáte <strong>PDF</strong> (veľkosť A4). My ho vytlačíme, vložíme do obálky a odošleme poštou za Vás.</span>
-                  <button class="btn btn-primary btn-sm" style="margin-top:12px;" onclick="document.getElementById('realFileInput').click(); event.stopPropagation()">＋ Vybrať PDF súbor</button>
+                  <span class="only-mob">PDF vo formáte A4. Vytlačíme ho, vložíme do obálky a podáme na pošte za Vás.</span>
+                  <button class="btn btn-primary btn-sm" style="margin-top:12px;" onclick="document.getElementById('realFileInput').click(); event.stopPropagation()"><span class="only-desk">＋ Vybrať PDF súbor</span><span class="only-mob">Nahrať PDF zo zariadenia</span></button>
                 </div>
               </div>
               <!-- Náhľad vloženého dokumentu (zobrazí sa až po nahratí) -->
@@ -1020,6 +1284,9 @@
           <div class="order-summary" style="margin-bottom:12px;position:static;">
             <div class="summary-header">Súhrn objednávky</div>
             <div class="summary-body">
+              <!-- Živý kontrolný zoznam — fajka sa objaví až podľa skutočného stavu -->
+              <div class="live-check" id="liveCheck"></div>
+
               <div style="margin-bottom:14px;">
                 <div class="form-label">Odosielateľ</div>
                 <div class="sender-box">
@@ -1044,6 +1311,14 @@
               <button class="send-btn" id="sendBtn" onclick="sendLetter()">Odoslať list — 0,83 €</button>
               <div style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:8px;">Suma bude odpočítaná z kreditu (14,53 €)</div>
             </div>
+          </div>
+
+          <!-- Tip pre klienta, ktorý posiela listy po jednom (Linda: business personalizácia) -->
+          <div class="bulk-tip" id="bulkTip" style="display:none;margin-top:12px;">
+            <button class="tip-x" onclick="dismissBulkTip()" aria-label="Zavrieť">×</button>
+            <h4>Ušetríte čas</h4>
+            <p>Posielate viac zásielok naraz? Nahrajte jedno PDF a adresy z neho načítame automaticky.</p>
+            <button class="btn btn-sec btn-sm" onclick="showPage('zt')">Odoslať viac listov naraz</button>
           </div>
 
         </div>
@@ -1155,6 +1430,8 @@
             <tbody id="shipBody"></tbody>
           </table>
         </div>
+        <!-- To isté ako tabuľka, len v kartách — zobrazí sa na mobile -->
+        <div class="ship-cards" id="shipCards"></div>
       </div>
     </div>
   </div>
@@ -1224,10 +1501,12 @@
                     <div class="dz-cursor"><svg class="ico ico-20" viewBox="0 0 24 24" aria-hidden="true"><path d="M6.4 3.6 18.8 11l-5.4 1.5-1.6 5.4L6.4 3.6z"/></svg></div>
                   </div>
                   <div class="dz-hint-text">
-                    <b>Potiahnite vzorový PDF sem — alebo ho vyberte z počítača</b>
-                    <span>Chyťte súbor v počítači a pustite ho priamo sem. Alebo kliknite kamkoľvek na tento rámec a vyberte PDF zo svojich súborov.<br>
+                    <b class="only-desk">Potiahnite vzorový PDF sem — alebo ho vyberte z počítača</b>
+                    <b class="only-mob">Nahrajte vzorový dokument</b>
+                    <span class="only-desk">Chyťte súbor v počítači a pustite ho priamo sem. Alebo kliknite kamkoľvek na tento rámec a vyberte PDF zo svojich súborov.<br>
                     Stačí <strong>jeden vzorový dokument</strong> — napr. faktúra alebo upomienka, akú budete posielať.</span>
-                    <button class="btn btn-primary btn-sm" style="margin-top:12px;" onclick="document.getElementById('ztSampleInput').click();event.stopPropagation()">＋ Vybrať PDF súbor</button>
+                    <span class="only-mob">Stačí jeden PDF dokument — napr. faktúra alebo upomienka, akú budete posielať.</span>
+                    <button class="btn btn-primary btn-sm" style="margin-top:12px;" onclick="document.getElementById('ztSampleInput').click();event.stopPropagation()"><span class="only-desk">＋ Vybrať PDF súbor</span><span class="only-mob">Nahrať PDF zo zariadenia</span></button>
                   </div>
                 </div>
                 <div id="ztSamplePreview" style="display:none;">
@@ -1576,9 +1855,9 @@
     <div class="page-body">
 
       <!-- Zelený banner pre režim podpísaného dokumentu -->
-      <div id="signedDocBanner" style="display:none;background:linear-gradient(150deg,var(--green-dark) 0%,var(--green-ink) 100%);border-radius:14px;padding:20px 24px;margin-bottom:20px;color:#fff;box-shadow:0 4px 16px rgba(28,61,18,.3);">
-        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px;margin-bottom:8px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.8 20.4h18.4"/><path d="M4.8 16.4c1.8 0 2.5-1.7 3.6-4.8s2.1-4.5 3.2-2.3.7 4.5 2.1 4.5"/><path d="M13.2 12.6l5.7-5.7a1.5 1.5 0 0 1 2.1 0l.2.2a1.5 1.5 0 0 1 0 2.1l-5.7 5.7-3.1.9.8-3.2z"/></svg> Lacnejšie ako posielanie poštou <span style="font-family:'Inter',sans-serif;font-weight:400;font-size:13px;opacity:.9;">(v porovnaní s doporučenou listovou zásielkou).</span></div>
-        <div style="font-size:13px;opacity:.9;line-height:1.55;">Odoslanie fyzicky podpísaného dokumentu, vhodné napríklad na posielanie zmlúv a pod.. Kuriér vyzdvihne Vašu obálku s originálom podpísaného dokumentu a doručí ju adresátovi.</div>
+      <div id="signedDocBanner" style="display:none;background:linear-gradient(100deg,var(--hero-a) 0%,var(--hero-b) 52%,var(--hero-c) 100%);border-radius:18px;padding:26px 30px;margin-bottom:20px;color:#fff;box-shadow:0 8px 26px rgba(28,61,18,.18);">
+        <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin-bottom:14px;"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.8 20.4h18.4"/><path d="M4.8 16.4c1.8 0 2.5-1.7 3.6-4.8s2.1-4.5 3.2-2.3.7 4.5 2.1 4.5"/><path d="M13.2 12.6l5.7-5.7a1.5 1.5 0 0 1 2.1 0l.2.2a1.5 1.5 0 0 1 0 2.1l-5.7 5.7-3.1.9.8-3.2z"/></svg> Lacnejšie ako posielanie poštou <span style="font-family:'Inter',sans-serif;font-weight:400;font-size:13px;opacity:.9;">(v porovnaní s doporučenou listovou zásielkou).</span></div>
+        <div class="hero-note">Odoslanie fyzicky podpísaného dokumentu, vhodné napríklad na posielanie zmlúv a pod.. Kuriér vyzdvihne Vašu obálku s originálom podpísaného dokumentu a doručí ju adresátovi.</div>
       </div>
 
       <!-- IČO/DIČ GATE -->
@@ -2303,6 +2582,21 @@
 
   // dynamické texty s číslami/cenami — pravidlá namiesto presnej zhody
   const ZP_RULES = [
+    [/^Zobrazuje sa (\d+) z (\d+) položiek$/, { en:'Showing $1 of $2 items',   hu:'$2 tételből $1 látható' }],
+    [/^Zobrazené (\d+) z (\d+) zásielok/,     { en:'Showing $1 of $2 shipments', hu:'$2 küldeményből $1 látható' }],
+    [/^Kredit /,                              { en:'Credit ',                  hu:'Egyenleg ' }],
+    [/^Dnes /,                                { en:'Today ',                   hu:'Ma ' }],
+    [/^Zajtra /,                              { en:'Tomorrow ',                hu:'Holnap ' }],
+    [/\(zvolený termín\)/,                    { en:'(chosen slot)',            hu:'(választott időpont)' }],
+    [/ · ČB$/,                                { en:' · B&W',                   hu:' · FF' }],
+    [/ · Farebne$/,                           { en:' · Colour',                hu:' · Színes' }],
+    [/ — sídlo$/,                             { en:' — registered office',     hu:' — székhely' }],
+    [/^Štítok archivujeme[\s\S]+rovnaké\.$/, {
+      en:'We keep the label for as long as the shipment exists. If it gets damaged or falls off, print it again from here — the tracking number stays the same.',
+      hu:'A címkét a küldemény teljes élettartama alatt megőrizzük. Ha megsérül vagy leválik, nyomtassa ki innen újra — a nyomkövetési szám ugyanaz marad.' }],
+    [/^Odosielanie balíkov je dostupné[\s\S]+identifikačné údaje\.$/, {
+      en:'Parcel sending is available only to companies and sole traders registered in Slovakia. We need your identification details in order to process the order.',
+      hu:'A csomagküldés csak Szlovákiában bejegyzett cégek és egyéni vállalkozók számára érhető el. A megrendelés feldolgozásához szükségünk van az azonosító adataira.' }],
     [/^Odoslať list — /,                  { en:'Send letter — ',            hu:'Levél küldése — ' }],
     [/^Odoslať balík — /,                 { en:'Send parcel — ',            hu:'Csomag küldése — ' }],
     [/^Odoslať podpísaný dokument — /,    { en:'Send signed document — ',   hu:'Aláírt dokumentum küldése — ' }],
@@ -2365,6 +2659,104 @@
     }
     return null;
   }
+
+  /* Nové texty z pripomienok marketingu — doplnené do slovníka, aby fungovalo aj EN/HU */
+  Object.assign(I18N.en, {
+    "Nahrajte list, ktorý máme poslať": "Upload the letter you want us to send",
+    "PDF vo formáte A4. Vytlačíme ho, vložíme do obálky a podáme na pošte za Vás.": "A4 PDF. We print it, put it in an envelope and post it for you.",
+    "Nahrať PDF zo zariadenia": "Upload PDF from device",
+    "Nahrajte vzorový dokument": "Upload a sample document",
+    "Stačí jeden PDF dokument — napr. faktúra alebo upomienka, akú budete posielať.": "One PDF is enough — an invoice or reminder of the kind you will be sending.",
+    "Jedna zásielka • adresu zadáte ručne": "One item • you enter the address",
+    "Viac zásielok • adresy načítame z PDF": "Multiple items • addresses read from your PDF",
+    "Podporovaný formát: PDF": "Supported format: PDF",
+    "Ušetríte čas": "Save time",
+    "Posielate viac zásielok naraz? Nahrajte jedno PDF a adresy z neho načítame automaticky.": "Sending several items at once? Upload one PDF and we will read the addresses from it.",
+    "Zavrieť": "Close",
+    "Dokument": "Document",
+    "Adresát": "Recipient",
+    "Nastavenie a odoslanie": "Setup and sending",
+    "Vložte PDF dokument, ktorý máme poslať.": "Upload the PDF document you want us to send.",
+    "Dokument je nahraný. Pokračujte vyplnením adresáta.": "Document uploaded. Continue by filling in the recipient.",
+    "Adresa je vyplnená. Skontrolujte cenu a odošlite zásielku.": "Address filled in. Check the price and send the item.",
+    "PDF pripravené": "PDF ready",
+    "PDF zatiaľ nenahrané": "PDF not uploaded yet",
+    "Vložte dokument v kroku 1": "Upload the document in step 1",
+    "Adresa zadaná": "Address entered",
+    "Adresa nie je úplná": "Address is incomplete",
+    "Doplňte meno, ulicu a mesto": "Add the name, street and town",
+    "Tlač čiernobielo": "Black and white printing",
+    "Tlač farebne": "Colour printing",
+    "Predpokladané podanie na pošte": "Estimated posting date",
+    "Začať odznova": "Start over",
+    "Pokračujeme v rozpracovanej objednávke.": "Continuing your unfinished order.",
+    "Odoslať": "Send", "História": "History", "Platby": "Payments", "Účet": "Account",
+    "Jazyk": "Language",
+    "Odoslať 1 list": "Send one letter", "Viac listov naraz": "Several letters at once",
+    "Balík": "Parcel", "Podpísaný dokument": "Signed document",
+    "Adresu zadáte ručne": "You enter the address", "Adresy načítame z PDF": "Addresses read from your PDF",
+    "Kuriér alebo výdajný box": "Courier or parcel box", "Fyzický originál": "Physical original",
+    "Prehľad vystavených faktúr": "Overview of issued invoices",
+    "Mesačná faktúra": "Monthly invoice",
+    "Interaktívny produktový prototyp": "Interactive product prototype",
+    "Zobraziť zásielky": "Show shipments", "Skryť zásielky": "Hide shipments",
+    "Zrušiť dávku": "Cancel batch", "Štítok": "Label",
+    "Označiť na hromadnú tlač štítkov": "Select for bulk label printing",
+    "Žiadne zásielky nevyhovujú filtru": "No shipments match the filter",
+    "Skúste zmeniť alebo zrušiť filtre.": "Try changing or clearing the filters.",
+    "Ján Novák alebo ABC s.r.o.": "John Smith or ABC Ltd.",
+    "napr. 35": "e.g. 35",
+    "Doporučený · ČB": "Registered · B&W", "Obyčajný · ČB": "Standard · B&W",
+    "Doporučený · Farebne": "Registered · Colour", "Obyčajný · Farebne": "Standard · Colour"
+  });
+  Object.assign(I18N.hu, {
+    "Nahrajte list, ktorý máme poslať": "Töltse fel a levelet, amelyet elküldünk",
+    "PDF vo formáte A4. Vytlačíme ho, vložíme do obálky a podáme na pošte za Vás.": "A4-es PDF. Kinyomtatjuk, borítékba tesszük és feladjuk Ön helyett.",
+    "Nahrať PDF zo zariadenia": "PDF feltöltése az eszközről",
+    "Nahrajte vzorový dokument": "Töltsön fel egy mintadokumentumot",
+    "Stačí jeden PDF dokument — napr. faktúra alebo upomienka, akú budete posielať.": "Elég egyetlen PDF — például egy számla vagy felszólítás, amilyet küldeni fog.",
+    "Jedna zásielka • adresu zadáte ručne": "Egy küldemény • a címet Ön adja meg",
+    "Viac zásielok • adresy načítame z PDF": "Több küldemény • a címeket a PDF-ből olvassuk ki",
+    "Podporovaný formát: PDF": "Támogatott formátum: PDF",
+    "Ušetríte čas": "Időt takarít meg",
+    "Posielate viac zásielok naraz? Nahrajte jedno PDF a adresy z neho načítame automaticky.": "Több küldeményt ad fel egyszerre? Töltsön fel egy PDF-et, a címeket kiolvassuk belőle.",
+    "Zavrieť": "Bezárás",
+    "Dokument": "Dokumentum",
+    "Adresát": "Címzett",
+    "Nastavenie a odoslanie": "Beállítás és feladás",
+    "Vložte PDF dokument, ktorý máme poslať.": "Töltse fel a PDF dokumentumot, amelyet elküldünk.",
+    "Dokument je nahraný. Pokračujte vyplnením adresáta.": "A dokumentum feltöltve. Folytassa a címzett megadásával.",
+    "Adresa je vyplnená. Skontrolujte cenu a odošlite zásielku.": "A cím kitöltve. Ellenőrizze az árat és adja fel a küldeményt.",
+    "PDF pripravené": "PDF kész",
+    "PDF zatiaľ nenahrané": "A PDF még nincs feltöltve",
+    "Vložte dokument v kroku 1": "Töltse fel a dokumentumot az 1. lépésben",
+    "Adresa zadaná": "Cím megadva",
+    "Adresa nie je úplná": "A cím hiányos",
+    "Doplňte meno, ulicu a mesto": "Adja meg a nevet, utcát és várost",
+    "Tlač čiernobielo": "Fekete-fehér nyomtatás",
+    "Tlač farebne": "Színes nyomtatás",
+    "Predpokladané podanie na pošte": "Várható feladás a postán",
+    "Začať odznova": "Újrakezdés",
+    "Pokračujeme v rozpracovanej objednávke.": "Folytatjuk a félbehagyott megrendelést.",
+    "Odoslať": "Küldés", "História": "Előzmények", "Platby": "Fizetések", "Účet": "Fiók",
+    "Jazyk": "Nyelv",
+    "Odoslať 1 list": "Egy levél küldése", "Viac listov naraz": "Több levél egyszerre",
+    "Balík": "Csomag", "Podpísaný dokument": "Aláírt dokumentum",
+    "Adresu zadáte ručne": "A címet Ön adja meg", "Adresy načítame z PDF": "A címeket a PDF-ből olvassuk ki",
+    "Kuriér alebo výdajný box": "Futár vagy csomagautomata", "Fyzický originál": "Fizikai eredeti",
+    "Prehľad vystavených faktúr": "A kiállított számlák áttekintése",
+    "Mesačná faktúra": "Havi számla",
+    "Interaktívny produktový prototyp": "Interaktív termékprototípus",
+    "Zobraziť zásielky": "Küldemények megjelenítése", "Skryť zásielky": "Küldemények elrejtése",
+    "Zrušiť dávku": "Tétel törlése", "Štítok": "Címke",
+    "Označiť na hromadnú tlač štítkov": "Kijelölés tömeges címkenyomtatáshoz",
+    "Žiadne zásielky nevyhovujú filtru": "Egy küldemény sem felel meg a szűrőnek",
+    "Skúste zmeniť alebo zrušiť filtre.": "Próbálja módosítani vagy törölni a szűrőket.",
+    "Ján Novák alebo ABC s.r.o.": "Kovács János vagy ABC Kft.",
+    "napr. 35": "pl. 35",
+    "Doporučený · ČB": "Ajánlott · FF", "Obyčajný · ČB": "Normál · FF",
+    "Doporučený · Farebne": "Ajánlott · Színes", "Obyčajný · Farebne": "Normál · Színes"
+  });
 
   let ZP_LANG = 'sk';
   const ZP_LANG_NAMES = { sk:'Slovenčina', en:'English', hu:'Magyar' };
@@ -2471,12 +2863,104 @@
       refreshInvoiceAlerts();
     }
     closeNav();
+    closeSheet();
+    mobSync(id, mode);
     window.scrollTo(0, 0);
   }
 
   // ============ MOBILE NAV ============
   function toggleNav() { document.body.classList.toggle('nav-open'); }
   function closeNav() { document.body.classList.remove('nav-open'); }
+
+  /* ---------------- Platobný režim klienta ----------------
+     Prototyp má jedného demo klienta na kredite. Skutočný režim
+     bude prichádzať z účtu — meniť stačí tu na jednom mieste. */
+  const PAY_MODE = 'credit';            // 'credit' alebo 'invoice'
+  const CREDIT_BALANCE = '14,53 €';
+
+  function mobCreditLabel() {
+    return PAY_MODE === 'credit' ? 'Kredit ' + CREDIT_BALANCE : 'Mesačná faktúra';
+  }
+  function mobCreditTap() {
+    showPage(PAY_MODE === 'credit' ? 'topup' : 'invoices');
+  }
+
+  /* ---------------- Spodná lišta a vysúvací panel ---------------- */
+  const MOB_TAB_OF = {
+    send: 'send', zt: 'send', parcel: 'send', labels: 'send',
+    batches: 'history', detail: 'history', 'detail-parcel': 'history',
+    invoices: 'pay', topup: 'pay',
+    profile: 'acc', received: 'acc'
+  };
+
+  function openSheet(which) {
+    const title = document.getElementById('sheetTitle');
+    const body = document.getElementById('sheetBody');
+    if (!title || !body) return;
+    const ico = p => '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' + p + '</svg>';
+
+    if (which === 'pay') {
+      title.textContent = 'Platby';
+      let html = '';
+      html += '<a class="sheet-item" onclick="sheetGo(\'invoices\')">'
+        + ico('<rect x="4.5" y="3.2" width="15" height="17.6" rx="1.6"/><path d="M8 8h8M8 12h8M8 16h5"/>')
+        + '<span>Faktúry a platby<span class="sub">Prehľad vystavených faktúr</span></span></a>';
+      if (PAY_MODE === 'credit') {
+        html += '<a class="sheet-item" onclick="sheetGo(\'topup\')">'
+          + ico('<circle cx="12" cy="12" r="8.4"/><path d="M12 8v8M8 12h8"/>')
+          + '<span>Dobiť kredit<span class="sub">Zostatok ' + CREDIT_BALANCE + '</span></span></a>';
+      }
+      body.innerHTML = html;
+    } else {
+      title.textContent = 'Účet';
+      let html = '';
+      html += '<a class="sheet-item" onclick="sheetGo(\'profile\')">'
+        + ico('<circle cx="12" cy="8.4" r="3.6"/><path d="M5 19.2a7 7 0 0 1 14 0"/>')
+        + '<span>Profil a odosielateľ</span></a>';
+      html += '<a class="sheet-item" onclick="sheetGo(\'received\')">'
+        + ico('<path d="M4 12v7.2h16V12"/><path d="M12 3.6v9.6M8.4 9.6 12 13.2l3.6-3.6"/>')
+        + '<span>Prijaté zásielky</span></a>';
+      html += '<div class="sheet-title" style="margin-top:12px;">Jazyk</div><div class="sheet-langs">'
+        + ['sk','en','hu'].map(l => '<button class="sheet-lang' + (ZP_LANG === l ? ' active' : '')
+            + '" onclick="setLang(\'' + l + '\');closeSheet();">' + l.toUpperCase() + '</button>').join('')
+        + '</div>';
+      body.innerHTML = html;
+    }
+    document.body.classList.add('sheet-open');
+  }
+  function closeSheet() { document.body.classList.remove('sheet-open'); }
+  function sheetGo(id) { closeSheet(); showPage(id); }
+
+  /* ---------------- Výber služby nad formulárom ---------------- */
+  function mobPickSvc(svc) {
+    if (svc === 'signed') showPage('parcel', 'signed');
+    else showPage(svc);
+  }
+
+  function mobSync(id, mode) {
+    // spodná lišta
+    const tab = MOB_TAB_OF[id] || null;
+    ['send','history','pay','acc'].forEach(t => {
+      const el = document.getElementById('mtab-' + t);
+      if (el) el.classList.toggle('active', t === tab);
+    });
+
+    // kredit v hlavičke aktívnej stránky
+    document.querySelectorAll('.mob-credit').forEach(el => { el.textContent = mobCreditLabel(); });
+
+    // prepínač služby sa presunie do práve otvorenej odosielacej stránky
+    const sw = document.getElementById('svcSwitch');
+    const sendingPages = ['send', 'zt', 'parcel'];
+    if (sw && sendingPages.includes(id)) {
+      const host = document.querySelector('#page-' + id + ' .page-body');
+      if (host && sw.parentElement !== host) host.insertBefore(sw, host.firstChild);
+      const cur = (id === 'parcel' && mode === 'signed') ? 'signed' : id;
+      sw.querySelectorAll('.svc').forEach(b => b.classList.toggle('active', b.dataset.svc === cur));
+      sw.classList.add('on');
+    } else if (sw) {
+      sw.classList.remove('on');
+    }
+  }
 
   function showToast(msg) {
     const t = document.getElementById('toast');
@@ -2486,7 +2970,7 @@
   }
 
   // ============ LETTER: FILE + VIEWER ============
-  let docState = { pages: 0, url: null, isReal: false, page: 1 };
+  let docState = { pages: 0, url: null, isReal: false, page: 1, name: null };
   let pdfDoc = null;   // načítaný dokument v pdf.js
 
   if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
@@ -2508,6 +2992,7 @@
     if (docState.url) URL.revokeObjectURL(docState.url);
     docState.url = URL.createObjectURL(file);
     docState.isReal = true;
+    docState.name = file.name;
     docState.page = 1;
 
     document.getElementById('uploadZone').classList.add('has-file');
@@ -2625,7 +3110,7 @@
   function removeFile() {
     if (docState.url) URL.revokeObjectURL(docState.url);
     if (pdfDoc) { try { pdfDoc.destroy(); } catch (e) {} pdfDoc = null; }
-    docState = { pages: 0, url: null, isReal: false, page: 1 };
+    docState = { pages: 0, url: null, isReal: false, page: 1, name: null };
     document.getElementById('realFileInput').value = '';
     document.getElementById('uploadZone').classList.remove('has-file');
     document.getElementById('uploadZone').style.display = '';
@@ -2778,13 +3263,157 @@
     const country = sel.options[sel.selectedIndex].text;
     document.getElementById('sumRecipName').textContent = rn || 'Zatiaľ nevyplnené';
     const parts = [rstreet, [rzip, rcity].filter(Boolean).join(' '), country].filter(Boolean);
-    document.getElementById('sumRecipAddr').textContent =
-      (rstreet || rzip || rcity) ? parts.join(', ') : 'Vyplňte adresáta vľavo';
+    const addrText = (rstreet || rzip || rcity) ? parts.join(', ') : 'Vyplňte adresáta vľavo';
+    document.getElementById('sumRecipAddr').textContent = addrText;
+
+    // Živý stav: fajka sa objaví až vtedy, keď je krok naozaj hotový
+    const hasDoc = !!(docState.isReal && docState.pages > 0);
+    const hasAddr = !!(rn && rstreet && (rzip || rcity));
+    updateStepNav(hasDoc, hasAddr);
+    renderLiveCheck(hasDoc, hasAddr, addrText);
+    document.getElementById('sendBtn').disabled = !(hasDoc && hasAddr);
+    saveDraft();
+  }
+
+  /* ====================== KROKOVÝ NAVIGÁTOR ====================== */
+  function dismissIntro() {
+    const el = document.getElementById('onboardIntro');
+    if (el) el.style.display = 'none';
+    try { localStorage.setItem('zp_seen_intro', '1'); } catch (e) {}
+  }
+  (function initIntro() {
+    let seen = null; try { seen = localStorage.getItem('zp_seen_intro'); } catch (e) {}
+    const el = document.getElementById('onboardIntro');
+    if (seen === '1') {
+      if (el) el.style.display = 'none';
+    } else {
+      // Prvá návšteva: uvítanie ukážeme raz a rovno si to poznačíme.
+      try { localStorage.setItem('zp_seen_intro', '1'); } catch (e) {}
+    }
+  })();
+
+  function updateStepNav(hasDoc, hasAddr) {
+    const chips = [1, 2, 3].map(n => document.getElementById('stepChip' + n));
+    const now = document.getElementById('stepNow');
+    if (!chips[0] || !now) return;
+    const state = !hasDoc ? 0 : (!hasAddr ? 1 : 2);
+    chips.forEach((c, i) => {
+      c.classList.toggle('done', i < state);
+      c.classList.toggle('now', i === state);
+    });
+    now.textContent = [
+      'Vložte PDF dokument, ktorý máme poslať.',
+      'Dokument je nahraný. Pokračujte vyplnením adresáta.',
+      'Adresa je vyplnená. Skontrolujte cenu a odošlite zásielku.'
+    ][state];
+  }
+
+  /* ====================== PREDPOKLADANÉ PODANIE ======================
+     Pravidlo prototypu: objednávka prijatá do 14:00 v pracovný deň ide na poštu
+     nasledujúci pracovný deň, neskôr o deň neskôr. Sviatky zatiaľ nerieši —
+     uzávierku aj kalendár treba potvrdiť s prevádzkou. */
+  const POSTING_CUTOFF_HOUR = 14;
+  function estPostingDate() {
+    const d = new Date(ZP_NOW);
+    d.setDate(d.getDate() + (d.getHours() < POSTING_CUTOFF_HOUR ? 1 : 2));
+    while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1);
+    return d.toLocaleDateString('sk-SK', { weekday: 'long', day: 'numeric', month: 'numeric' });
+  }
+
+  /* ====================== ŽIVÝ KONTROLNÝ SÚHRN ====================== */
+  function lcRow(on, label, detail) {
+    return '<div class="lc-row ' + (on ? 'on' : 'off') + '">'
+      + '<span class="lc-mark">' + (on ? '✓' : '·') + '</span>'
+      + '<span><b>' + label + '</b>'
+      + (detail ? '<span class="lc-detail">' + detail + '</span>' : '')
+      + '</span></div>';
+  }
+
+  function renderLiveCheck(hasDoc, hasAddr, addrText) {
+    const box = document.getElementById('liveCheck');
+    if (!box) return;
+    const pages = docState.pages || 0;
+    const pagesTxt = pages ? (pages + (pages === 1 ? ' strana' : pages < 5 ? ' strany' : ' strán')) : '';
+    const printTxt = cfg.print === 'bw' ? 'čiernobielo' : 'farebne';
+    const postTxt = cfg.post === 'registered' ? 'Doporučený list' : 'Obyčajný list';
+    const extras = [cfg.dorucenka ? 'doručenka' : null, cfg.vlastneRuky ? 'do vlastných rúk' : null].filter(Boolean);
+
+    let html = '';
+    html += hasDoc
+      ? lcRow(true, 'PDF pripravené', [docState.name, pagesTxt].filter(Boolean).join(' · '))
+      : lcRow(false, 'PDF zatiaľ nenahrané', 'Vložte dokument v kroku 1');
+    html += hasAddr
+      ? lcRow(true, 'Adresa zadaná', addrText)
+      : lcRow(false, 'Adresa nie je úplná', 'Doplňte meno, ulicu a mesto');
+    html += lcRow(true, 'Tlač ' + printTxt);
+    html += lcRow(true, postTxt, extras.length ? extras.join(' · ') : '');
+    if (hasDoc && hasAddr) html += lcRow(true, 'Predpokladané podanie na pošte', estPostingDate());
+    box.innerHTML = html;
+  }
+
+  /* ====================== ROZPRACOVANÁ OBJEDNÁVKA ======================
+     Ukladáme iba vyplnené údaje. Samotné PDF sa neukladá — prehliadač ho po
+     zatvorení stránky nemá kde držať, takže po návrate ho treba nahrať znova. */
+  const DRAFT_KEY = 'zp_draft_letter';
+  let draftReady = false;   // ukladáme až po obnove konceptu
+  function val(id) { const el = document.getElementById(id); return el ? (el.value || '').trim() : ''; }
+
+  function saveDraft() {
+    if (!draftReady) return;
+    try {
+      const d = {
+        name: val('lname'), street: val('lstreet'), zip: val('lzip'), city: val('lcity'),
+        country: (document.getElementById('destCountry') || {}).value || 'SK',
+        cfg: { print: cfg.print, post: cfg.post, dorucenka: cfg.dorucenka, vlastneRuky: cfg.vlastneRuky },
+        docName: docState.isReal ? docState.name : null
+      };
+      if (!d.name && !d.street && !d.zip && !d.city && !d.docName) localStorage.removeItem(DRAFT_KEY);
+      else localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+    } catch (e) {}
+  }
+
+  function discardDraft() {
+    try { localStorage.removeItem(DRAFT_KEY); } catch (e) {}
+    ['lname', 'lstreet', 'lzip', 'lcity'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    const n = document.getElementById('draftNotice'); if (n) n.style.display = 'none';
+    updateSummary();
+  }
+
+  function restoreDraft() {
+    let raw = null; try { raw = localStorage.getItem(DRAFT_KEY); } catch (e) {}
+    if (!raw) { draftReady = true; return; }
+    let d; try { d = JSON.parse(raw); } catch (e) { draftReady = true; return; }
+
+    const set = (id, v) => { const el = document.getElementById(id); if (el && v) el.value = v; };
+    set('lname', d.name); set('lstreet', d.street); set('lzip', d.zip); set('lcity', d.city);
+
+    const sel = document.getElementById('destCountry');
+    if (sel && d.country) { sel.value = d.country; setDest(d.country); }
+
+    if (d.cfg) {
+      ['print', 'post'].forEach(g => {
+        const el = document.querySelector('.cfg-option[data-g="' + g + '"][data-v="' + d.cfg[g] + '"]');
+        if (el) pickCfg(el);
+      });
+      ['dorucenka', 'vlastneRuky'].forEach(k => { if (d.cfg[k] && !cfg[k]) toggleExtra(k); });
+    }
+
+    const notice = document.getElementById('draftNotice');
+    const txt = document.getElementById('draftNoticeText');
+    if (notice && txt) {
+      txt.textContent = d.docName
+        ? 'Pokračujeme v rozpracovanej objednávke. Dokument „' + d.docName + '" nahrajte prosím znova — samotný súbor si neukladáme.'
+        : 'Pokračujeme v rozpracovanej objednávke.';
+      notice.style.display = 'flex';
+    }
+    draftReady = true;
+    updateSummary();
   }
 
   function sendLetter() {
-    showToast('✓ List bol odoslaný! Sledovacie číslo: EE999999999SK');
-    setTimeout(() => showPage('batches'), 1500);
+    showToast('✓ Objednávku sme prijali. Na poštu ju podáme ' + estPostingDate() + '.');
+    try { localStorage.removeItem(DRAFT_KEY); localStorage.setItem('zp_seen_intro', '1'); } catch (e) {}
+    setTimeout(() => showPage('batches'), 1800);
   }
 
   // ============ LABEL REPRINT ============
@@ -4009,9 +4638,92 @@
       }
     });
     body.innerHTML = html || '<tr><td colspan="10"><div class="empty-state"><div class="empty-icon" style="color:var(--text-muted);"><svg class="ico ico-32" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6"/><path d="M15.3 15.3 20 20"/></svg></div><h3>Žiadne zásielky nevyhovujú filtru</h3><p>Skúste zmeniť alebo zrušiť filtre.</p></div></td></tr>';
+    renderShipmentCards(list);
     const total = SHIPMENTS.length;
     document.getElementById('filterResultCount').textContent = 'Zobrazuje sa ' + list.length + ' z ' + total + ' položiek';
     updateLabelSelection();
+  }
+
+  /* Mobilná podoba histórie: tie isté zásielky a tie isté akcie, len v kartách.
+     Adresát, stav, dátum, cena a vstup do detailu musia byť vidieť na prvý pohľad. */
+  function renderShipmentCards(list) {
+    const box = document.getElementById('shipCards');
+    if (!box) return;
+
+    if (!list.length) {
+      box.innerHTML = '<div class="empty-state"><h3>Žiadne zásielky nevyhovujú filtru</h3><p>Skúste zmeniť alebo zrušiť filtre.</p></div>';
+      return;
+    }
+
+    box.innerHTML = list.map(s => {
+      const dead = s.status === 'cancelled' ? ' cancelled' : '';
+
+      if (s.kind === 'batch') {
+        const open = !!openBatches[s.id];
+        const children = open ? `
+          <div class="sc-children">
+            ${s.children.map((c, idx) => `
+              <div class="sc-child${c.status === 'cancelled' ? ' cancelled' : ''}">
+                <span class="nm">${c.recip}</span>
+                ${statusBadgeHtml(c.status)}
+                <span>${c.price}</span>
+                ${isCancelable(s) && c.status !== 'cancelled'
+                  ? `<button class="btn btn-danger-ghost btn-sm" onclick="cancelBatchChild('${s.id}',${idx});event.stopPropagation()">Zrušiť</button>` : ''}
+              </div>`).join('')}
+            <div class="sc-more">Zobrazené 3 z ${s.count} zásielok · <a onclick="showToast('Zobrazujem všetky…');event.stopPropagation()" style="color:var(--green);cursor:pointer;font-weight:600;">Zobraziť všetky →</a></div>
+          </div>` : '';
+
+        return `
+          <div class="ship-card clickable${dead}" onclick="toggleBatch('${s.id}')">
+            <div class="sc-top">
+              ${shipIcon('batch')}
+              <div class="sc-main">
+                <div class="sc-name">${s.name}</div>
+                <div class="sc-sub">Dávka · ${s.count} zásielok</div>
+              </div>
+              <div class="sc-price">${s.price}</div>
+            </div>
+            <div class="sc-meta">
+              <span class="badge badge-type">Dávka</span>
+              ${statusBadgeHtml(s.status)}
+              <span class="sc-date">${fmtDT(s.received)}</span>
+            </div>
+            <div class="sc-actions">
+              <button class="btn btn-secondary btn-sm" onclick="toggleBatch('${s.id}');event.stopPropagation()">${open ? 'Skryť zásielky' : 'Zobraziť zásielky'}</button>
+              ${isCancelable(s) ? `<button class="btn btn-danger-ghost btn-sm" onclick="cancelBatch('${s.id}');event.stopPropagation()">Zrušiť dávku</button>` : ''}
+            </div>
+            ${children}
+          </div>`;
+      }
+
+      const L = (s.kind === 'parcel' && s.label && s.status !== 'cancelled') ? s.label : null;
+      return `
+        <div class="ship-card${s.detail ? ' clickable' : ''}${dead}"${s.detail ? ` onclick="openShipDetail('${s.id}','${s.detail}')"` : ''}>
+          <div class="sc-top">
+            ${shipIcon(s.kind)}
+            <div class="sc-main">
+              <div class="sc-name">${s.recip}</div>
+              <div class="sc-sub">${s.addr}</div>
+            </div>
+            <div class="sc-price">${s.price}</div>
+          </div>
+          <div class="sc-meta">
+            <span class="badge ${s.typeBadge[1]}">${s.typeBadge[0]}</span>
+            ${statusBadgeHtml(s.status)}
+            <span class="sc-date">${fmtDT(s.received)}</span>
+          </div>
+          ${s.track ? `<div class="sc-track">${trackHtml(s.track)}</div>` : ''}
+          <div class="sc-actions">
+            ${s.detail ? `<button class="btn btn-secondary btn-sm" onclick="openShipDetail('${s.id}','${s.detail}');event.stopPropagation()">Detail</button>` : ''}
+            ${L ? `<button class="btn btn-secondary btn-sm" onclick="reprintLabel('${L.tracking}','${L.recip}',${L.weight});event.stopPropagation()">Štítok</button>` : ''}
+            ${isCancelable(s) ? `<button class="btn btn-danger-ghost btn-sm" onclick="cancelShipment('${s.id}');event.stopPropagation()">Zrušiť</button>` : ''}
+          </div>
+          ${L ? `<label class="sc-select" onclick="event.stopPropagation()">
+            <input type="checkbox" class="lbl-select" data-tracking="${L.tracking}" data-recip="${L.recip}" data-weight="${L.weight}" data-dest="${L.dest}" onclick="event.stopPropagation();updateLabelSelection()">
+            Označiť na hromadnú tlač štítkov
+          </label>` : ''}
+        </div>`;
+    }).join('');
   }
   renderShipments();
 
@@ -4312,10 +5024,79 @@
     document.getElementById('invoiceOption').style.display = 'none';
     document.getElementById('invoiceTipBtn').style.display = 'block';
   }
+  /* ---- Tip na hromadné odosielanie ----
+     Zobrazí sa klientovi, ktorý už poslal aspoň 3 jednotlivé listy a dávky zatiaľ nepoužíva.
+     Po zatvorení sa už nevráti. Počítadlo je zatiaľ z demo dát prototypu. */
+  const BULK_TIP_LIMIT = 3;
+  function dismissBulkTip() {
+    const t = document.getElementById('bulkTip'); if (t) t.style.display = 'none';
+    try { localStorage.setItem('zp_bulk_tip', 'off'); } catch (e) {}
+  }
+  function maybeShowBulkTip() {
+    const t = document.getElementById('bulkTip'); if (!t) return;
+    let off = null; try { off = localStorage.getItem('zp_bulk_tip'); } catch (e) {}
+    if (off === 'off') return;
+    const force = new URLSearchParams(location.search).get('tip') === '1';
+    const singles = SHIPMENTS.filter(x => x.kind === 'letter').length;
+    const usesBatches = SHIPMENTS.some(x => x.kind === 'batch');
+    if (force || (singles >= BULK_TIP_LIMIT && !usesBatches)) t.style.display = 'block';
+  }
+
   function openInvoiceOption() {
     document.getElementById('invoiceOption').style.display = 'block';
     document.getElementById('invoiceTipBtn').style.display = 'none';
   }
+
+  /* ---- Drobčeky v hlavičke + pilulka „Interaktívny produktový prototyp" ---- */
+  const CRUMB_OF = {
+    'send': 'Odosielanie', 'zt': 'Odosielanie', 'parcel': 'Odosielanie',
+    'batches': 'Odosielanie', 'detail': 'Odosielanie', 'detail-parcel': 'Odosielanie',
+    'labels': 'Odosielanie',
+    'profile': 'Nastavenia', 'received': 'Nastavenia',
+    'invoices': 'Nastavenia', 'topup': 'Nastavenia'
+  };
+  (function decorateTopbars() {
+    document.querySelectorAll('.page').forEach(function (pg) {
+      const key = pg.id.replace(/^page-/, '');
+      const bar = pg.querySelector('.topbar');
+      if (!bar) return;
+      const title = bar.querySelector('.topbar-title');
+      if (title && CRUMB_OF[key] && !title.querySelector('.crumb')) {
+        const c = document.createElement('span');
+        c.className = 'crumb';
+        c.textContent = CRUMB_OF[key];
+        title.insertBefore(c, title.firstChild);
+      }
+      let acts = bar.querySelector('.topbar-actions');
+      if (!acts) { acts = document.createElement('div'); acts.className = 'topbar-actions'; bar.appendChild(acts); }
+      if (!acts.querySelector('.mob-credit')) {
+        const c = document.createElement('button');
+        c.className = 'mob-credit';
+        c.onclick = mobCreditTap;
+        c.textContent = mobCreditLabel();
+        acts.insertBefore(c, acts.firstChild);
+      }
+      if (!acts.querySelector('.proto-pill')) {
+        const pill = document.createElement('span');
+        pill.className = 'proto-pill';
+        pill.textContent = 'Interaktívny produktový prototyp';
+        acts.appendChild(pill);
+      }
+    });
+  })();
+
+  mobSync('send');
+  (function syncPayDot() {
+    const src = document.getElementById('invoiceNavDot');
+    const dot = document.getElementById('mtabPayDot');
+    if (!src || !dot) return;
+    const upd = () => { dot.style.display = src.classList.contains('show') ? 'block' : 'none'; };
+    upd();
+    new MutationObserver(upd).observe(src, { attributes: true, attributeFilter: ['class'] });
+  })();
+  maybeShowBulkTip();
+  restoreDraft();
+  updateSummary();
 </script>
 </body>
 </html>
