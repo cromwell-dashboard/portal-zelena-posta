@@ -577,6 +577,52 @@
   /* Texty, ktoré sa líšia na počítači a na mobile (Linda: dropzóna) */
   /* Texty, ktoré sa líšia na počítači a na mobile (pripomienka k dropzóne) */
   .only-mob { display: none !important; }
+  /* Voľba fotky — na počítači nedáva zmysel, tam sú súbory poruke */
+  .photo-pick { display: none; margin-top: 10px; }
+
+  /* ============ OREZANIE FOTKY DO FORMÁTU A4 ============ */
+  #cropOverlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: #14200F; color: #fff;
+    flex-direction: column; align-items: center;
+  }
+  body.crop-open #cropOverlay { display: flex; }
+  body.crop-open { overflow: hidden; }
+  .crop-head { width: 100%; padding: 14px 18px calc(10px + env(safe-area-inset-top, 0px)); text-align: center; flex-shrink: 0; }
+  .crop-head h3 { font-family: 'Bricolage Grotesque','Inter',sans-serif; font-size: 16px; font-weight: 700; }
+  .crop-head p { font-size: 12px; color: rgba(255,255,255,.62); margin-top: 4px; line-height: 1.4; }
+  .crop-stage { flex: 1; display: flex; align-items: center; justify-content: center; width: 100%; min-height: 0; padding: 4px 0; }
+  .crop-frame {
+    position: relative; background: #fff; overflow: hidden;
+    box-shadow: 0 0 0 2px rgba(255,255,255,.85), 0 0 0 9999px rgba(20,32,15,.55);
+    touch-action: none; cursor: grab;
+  }
+  .crop-frame.grabbing { cursor: grabbing; }
+  .crop-frame canvas { display: block; width: 100%; height: 100%; }
+  /* pomocné tretiny */
+  .crop-grid { position: absolute; inset: 0; pointer-events: none; }
+  .crop-grid i { position: absolute; background: rgba(46,107,27,.28); }
+  .crop-grid i:nth-child(1) { left: 33.33%; top: 0; bottom: 0; width: 1px; }
+  .crop-grid i:nth-child(2) { left: 66.66%; top: 0; bottom: 0; width: 1px; }
+  .crop-grid i:nth-child(3) { top: 33.33%; left: 0; right: 0; height: 1px; }
+  .crop-grid i:nth-child(4) { top: 66.66%; left: 0; right: 0; height: 1px; }
+
+  .crop-tools { width: 100%; max-width: 520px; padding: 12px 18px calc(16px + env(safe-area-inset-bottom, 0px)); flex-shrink: 0; }
+  .crop-zoom { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .crop-zoom input[type=range] { flex: 1; min-width: 0; accent-color: #A8DC63; }
+  .crop-zoom button {
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.24); color: #fff;
+    border-radius: 9px; padding: 8px 11px; font-family: inherit; font-size: 12.5px; font-weight: 600;
+    cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  }
+  .crop-zoom button:hover { background: rgba(255,255,255,.2); }
+  .crop-actions { display: flex; gap: 10px; }
+  .crop-actions button { flex: 1; border-radius: 10px; padding: 13px 12px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; border: none; }
+  .crop-cancel { background: rgba(255,255,255,.12); color: #fff; }
+  .crop-ok { background: linear-gradient(115deg, #3C851F, #59A62C); color: #fff; }
+  .crop-dpi { font-size: 11.5px; text-align: center; margin-top: 10px; color: rgba(255,255,255,.6); }
+  .crop-dpi.warn { color: #F0C36B; }
+  .photo-note { font-size: 11.5px; color: var(--text-muted); line-height: 1.45; margin-top: 8px; }
   /* Popisok v tlačidle nesmie zdediť sivú farbu a blokové zalomenie z .dz-hint-text span */
   .dz-hint-text .btn span { color: inherit; font-size: inherit; line-height: inherit; display: inline; }
   .dz-hint-text .btn span.only-mob { display: none; }
@@ -893,6 +939,7 @@
     .dz-hint-text b.only-mob, .dz-hint-text span.only-mob { display: block !important; }
     .dz-hint-text .btn span.only-desk { display: none; }
     .dz-hint-text .btn span.only-mob { display: inline; }
+    .photo-pick { display: block; }
     .dz-anim { display: none !important; }
     .dropzone { padding: 22px 16px !important; }
     .dz-hint-text b { font-size: 16px; }
@@ -1028,6 +1075,32 @@
     Účet
   </a>
 </nav>
+
+<!-- Orezanie fotky do formátu A4 -->
+<div id="cropOverlay">
+  <div class="crop-head">
+    <h3>Umiestnite dokument do rámu</h3>
+    <p>Ťahaním posuniete, štipnutím dvomi prstami priblížite. Rám má pomer strán A4.</p>
+  </div>
+  <div class="crop-stage">
+    <div class="crop-frame" id="cropFrame">
+      <canvas id="cropCanvas"></canvas>
+      <div class="crop-grid"><i></i><i></i><i></i><i></i></div>
+    </div>
+  </div>
+  <div class="crop-tools">
+    <div class="crop-zoom">
+      <button onclick="cropRotate()">Otočiť</button>
+      <input type="range" id="cropZoom" min="100" max="400" value="100" oninput="cropSetZoom(this.value)" aria-label="Priblíženie">
+      <button onclick="cropReset()">Celé</button>
+    </div>
+    <div class="crop-actions">
+      <button class="crop-cancel" onclick="cropClose()">Zrušiť</button>
+      <button class="crop-ok" onclick="cropApply()">Použiť výrez</button>
+    </div>
+    <div class="crop-dpi" id="cropDpi"></div>
+  </div>
+</div>
 
 <div id="mobSheetOverlay" onclick="closeSheet()"></div>
 <div id="mobSheet">
@@ -1173,6 +1246,7 @@
             </div>
             <div class="card-body" style="padding:16px;">
               <input type="file" id="realFileInput" accept="application/pdf" style="display:none;" onchange="handleRealFile(event)">
+              <input type="file" id="photoInput" accept="image/*" style="display:none;" onchange="zpPickPhoto(event)">
 
               <!-- Animovaná nápoveda: drag & drop alebo výber súboru -->
               <div class="dz-hint" id="uploadZone"
@@ -1193,6 +1267,10 @@
                   Nahrajte list vo formáte <strong>PDF</strong> (veľkosť A4). My ho vytlačíme, vložíme do obálky a odošleme poštou za Vás.</span>
                   <span class="only-mob">PDF vo formáte A4. Vytlačíme ho, vložíme do obálky a podáme na pošte za Vás.</span>
                   <button class="btn btn-primary btn-sm" style="margin-top:12px;" onclick="document.getElementById('realFileInput').click(); event.stopPropagation()"><span class="only-desk">＋ Vybrať PDF súbor</span><span class="only-mob">Nahrať PDF zo zariadenia</span></button>
+                  <div class="photo-pick">
+                    <button class="btn btn-secondary btn-sm" onclick="document.getElementById('photoInput').click(); event.stopPropagation()">Alebo vybrať fotku dokumentu</button>
+                    <div class="photo-note">Z fotky spravíme stranu A4 a vytlačíme ju. Dokument odfoťte zhora, na svetlom podklade a tak, aby bol na fotke celý.</div>
+                  </div>
                 </div>
               </div>
               <!-- Náhľad vloženého dokumentu (zobrazí sa až po nahratí) -->
@@ -2726,6 +2804,9 @@
     "Kuriér alebo výdajný box": "Courier or parcel box", "Fyzický originál": "Physical original",
     "Prehľad vystavených faktúr": "Overview of issued invoices",
     "Mesačná faktúra": "Monthly invoice",
+    "Alebo vybrať fotku dokumentu": "Or choose a photo of the document",
+    "Z fotky spravíme stranu A4 a vytlačíme ju. Dokument odfoťte zhora, na svetlom podklade a tak, aby bol na fotke celý.": "We turn the photo into an A4 page and print it. Photograph the document from above, on a light surface, with the whole document in frame.",
+    "Strana A4 z fotky": "A4 page from a photo",
     "Interaktívny produktový prototyp": "Interactive product prototype",
     "Zobraziť zásielky": "Show shipments", "Skryť zásielky": "Hide shipments",
     "Zrušiť dávku": "Cancel batch", "Štítok": "Label",
@@ -2774,6 +2855,9 @@
     "Kuriér alebo výdajný box": "Futár vagy csomagautomata", "Fyzický originál": "Fizikai eredeti",
     "Prehľad vystavených faktúr": "A kiállított számlák áttekintése",
     "Mesačná faktúra": "Havi számla",
+    "Alebo vybrať fotku dokumentu": "Vagy válasszon fényképet a dokumentumról",
+    "Z fotky spravíme stranu A4 a vytlačíme ju. Dokument odfoťte zhora, na svetlom podklade a tak, aby bol na fotke celý.": "A fényképből A4-es oldalt készítünk és kinyomtatjuk. Fényképezze a dokumentumot felülről, világos háttéren, teljes egészében.",
+    "Strana A4 z fotky": "A4-es oldal fényképből",
     "Interaktívny produktový prototyp": "Interaktív termékprototípus",
     "Zobraziť zásielky": "Küldemények megjelenítése", "Skryť zásielky": "Küldemények elrejtése",
     "Zrušiť dávku": "Tétel törlése", "Štítok": "Címke",
@@ -2999,7 +3083,7 @@
   }
 
   // ============ LETTER: FILE + VIEWER ============
-  let docState = { pages: 0, url: null, isReal: false, page: 1, name: null };
+  let docState = { pages: 0, url: null, isReal: false, page: 1, name: null, fromPhoto: false };
   let pdfDoc = null;   // načítaný dokument v pdf.js
 
   if (window.pdfjsLib) pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
@@ -3009,6 +3093,251 @@
     e.currentTarget.classList.remove('drag');
     const f = e.dataTransfer.files[0];
     if (f) loadFile(f);
+  }
+
+  /* ============ FOTKA → STRANA A4 ============
+     Pri jednom liste sa z dokumentu nič nečíta, takže vstupom môže byť aj fotka.
+     List sa však tlačí — fotku preto vykreslíme na stranu A4 a vyrobíme z nej
+     naozajstné PDF, aby ďalej fungoval rovnaký postup ako pri nahratom PDF.
+     Neorezávame ani nenarovnávame; klient si výsledok skontroluje v náhľade. */
+
+  const A4_DPI = 200;
+  const A4_W_PX = Math.round(8.27 * A4_DPI);
+  const A4_H_PX = Math.round(11.69 * A4_DPI);
+  const A4_MARGIN_PX = Math.round(0.39 * A4_DPI);   // 10 mm
+
+  /* Jednostranové PDF s vloženým JPEG-om. Robíme ho ručne, aby prototyp
+     nepotreboval ďalšiu knižnicu. */
+  function zpJpegToPdf(jpeg, pxW, pxH) {
+    const PW = 595.28, PH = 841.89;          // A4 v bodoch
+    const enc = new TextEncoder();
+    const parts = []; let len = 0; const off = [];
+    const put = d => { const b = (typeof d === 'string') ? enc.encode(d) : d; parts.push(b); len += b.length; };
+    const obj = (n, body) => { off[n] = len; put(n + ' 0 obj\n' + body + '\nendobj\n'); };
+
+    put(new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2D, 0x31, 0x2E, 0x34, 0x0A, 0x25, 0xE2, 0xE3, 0xCF, 0xD3, 0x0A]));
+    obj(1, '<< /Type /Catalog /Pages 2 0 R >>');
+    obj(2, '<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
+    obj(3, '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + PW + ' ' + PH +
+           '] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>');
+
+    off[4] = len;
+    put('4 0 obj\n<< /Type /XObject /Subtype /Image /Width ' + pxW + ' /Height ' + pxH +
+        ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + jpeg.length + ' >>\nstream\n');
+    put(jpeg);
+    put('\nendstream\nendobj\n');
+
+    const content = 'q\n' + PW + ' 0 0 ' + PH + ' 0 0 cm\n/Im0 Do\nQ\n';
+    obj(5, '<< /Length ' + content.length + ' >>\nstream\n' + content + 'endstream');
+
+    const xref = len;
+    let x = 'xref\n0 6\n0000000000 65535 f \n';
+    for (let i = 1; i <= 5; i++) x += String(off[i]).padStart(10, '0') + ' 00000 n \n';
+    put(x);
+    put('trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n' + xref + '\n%%EOF\n');
+
+    const outLen = parts.reduce((a, b) => a + b.length, 0);
+    const out = new Uint8Array(outLen);
+    let o = 0; parts.forEach(b => { out.set(b, o); o += b.length; });
+    return out;
+  }
+
+  /* ---------------- Orezanie fotky do formátu A4 ----------------
+     Rám je pevný a v pomere A4, hýbe sa fotka za ním. Je to ten istý postup,
+     aký ľudia poznajú z nastavovania profilovej fotky. */
+  const crop = { img: null, name: '', rot: 0, scale: 1, base: 1, ox: 0, oy: 0, fw: 0, fh: 0, pts: new Map(), pinch: 0 };
+
+  async function zpPickPhoto(e) {
+    const file = e.target.files && e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { showToast('⚠ Vyberte prosím fotku alebo obrázok'); return; }
+
+    let bmp;
+    try {
+      // imageOrientation zabezpečí, že fotka nebude otočená nabok
+      bmp = await createImageBitmap(file, { imageOrientation: 'from-image' });
+    } catch (err) {
+      try { bmp = await createImageBitmap(file); }
+      catch (err2) { showToast('⚠ Fotku sa nepodarilo načítať'); return; }
+    }
+    crop.img = bmp;
+    crop.name = (file.name || 'fotka').replace(/\.[^.]+$/, '');
+    crop.rot = 0;
+    cropOpen();
+  }
+
+  function cropFrameSize() {
+    const vw = window.innerWidth, vh = window.innerHeight;
+    let h = Math.max(220, vh - 250);
+    let w = h / 1.414;
+    const maxW = Math.min(vw - 44, 420);
+    if (w > maxW) { w = maxW; h = w * 1.414; }
+    return { w: Math.round(w), h: Math.round(h) };
+  }
+
+  function cropOpen() {
+    const f = cropFrameSize();
+    crop.fw = f.w; crop.fh = f.h;
+    const frame = document.getElementById('cropFrame');
+    frame.style.width = f.w + 'px'; frame.style.height = f.h + 'px';
+    const cv = document.getElementById('cropCanvas');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.round(f.w * dpr); cv.height = Math.round(f.h * dpr);
+    document.body.classList.add('crop-open');
+    cropReset();
+  }
+
+  function cropClose() {
+    document.body.classList.remove('crop-open');
+    if (crop.img && crop.img.close) crop.img.close();
+    crop.img = null; crop.pts.clear();
+  }
+
+  /* Rozmery fotky po otočení */
+  function cropDims() {
+    const q = ((crop.rot % 360) + 360) % 360;
+    return (q === 90 || q === 270)
+      ? { w: crop.img.height, h: crop.img.width }
+      : { w: crop.img.width, h: crop.img.height };
+  }
+
+  function cropReset() {
+    if (!crop.img) return;
+    const d = cropDims();
+    crop.base = Math.min(crop.fw / d.w, crop.fh / d.h);   // celá fotka v ráme
+    crop.scale = crop.base; crop.ox = 0; crop.oy = 0;
+    document.getElementById('cropZoom').value = 100;
+    cropDraw();
+  }
+
+  function cropRotate() {
+    if (!crop.img) return;
+    crop.rot = (crop.rot + 90) % 360;
+    cropReset();
+  }
+
+  function cropSetZoom(v) {
+    crop.scale = crop.base * (v / 100);
+    cropDraw();
+  }
+
+  function cropDraw() {
+    if (!crop.img) return;
+    const cv = document.getElementById('cropCanvas');
+    const ctx = cv.getContext('2d');
+    const k = cv.width / crop.fw;
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, cv.width, cv.height);
+    ctx.translate((crop.fw / 2 + crop.ox) * k, (crop.fh / 2 + crop.oy) * k);
+    ctx.rotate(crop.rot * Math.PI / 180);
+    ctx.scale(crop.scale * k, crop.scale * k);
+    ctx.drawImage(crop.img, -crop.img.width / 2, -crop.img.height / 2);
+
+    // koľko bodov fotky pripadne na palec papiera pri aktuálnom priblížení
+    const dpi = cropEffDpi();
+    const el = document.getElementById('cropDpi');
+    el.textContent = dpi >= 120
+      ? 'Kvalita tlače: ' + dpi + ' dpi — v poriadku'
+      : 'Kvalita tlače: ' + dpi + ' dpi — výtlačok môže byť neostrý';
+    el.classList.toggle('warn', dpi < 120);
+  }
+
+  /* Koľko bodov fotky pripadne na palec papiera pri aktuálnom priblížení */
+  function cropEffDpi() {
+    const k = A4_W_PX / crop.fw;                 // z rámu na tlačové body
+    const imgPxPerPaperPx = 1 / (crop.scale * k);
+    return Math.round(A4_DPI * imgPxPerPaperPx);
+  }
+
+  /* Ťahanie a štipnutie */
+  (function cropGestures() {
+    const frame = document.getElementById('cropFrame');
+    if (!frame) return;
+    let last = null;
+
+    frame.addEventListener('pointerdown', e => {
+      if (!crop.img) return;
+      frame.setPointerCapture(e.pointerId);
+      crop.pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      frame.classList.add('grabbing');
+      if (crop.pts.size === 2) {
+        const [a, b] = [...crop.pts.values()];
+        crop.pinch = Math.hypot(a.x - b.x, a.y - b.y);
+      }
+      last = { x: e.clientX, y: e.clientY };
+    });
+
+    frame.addEventListener('pointermove', e => {
+      if (!crop.img || !crop.pts.has(e.pointerId)) return;
+      crop.pts.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+      if (crop.pts.size === 2) {
+        const [a, b] = [...crop.pts.values()];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (crop.pinch > 0) {
+          crop.scale = Math.max(crop.base * 0.5, Math.min(crop.base * 8, crop.scale * (d / crop.pinch)));
+          document.getElementById('cropZoom').value = Math.round(crop.scale / crop.base * 100);
+        }
+        crop.pinch = d;
+        cropDraw();
+        return;
+      }
+      if (last) {
+        crop.ox += e.clientX - last.x;
+        crop.oy += e.clientY - last.y;
+        last = { x: e.clientX, y: e.clientY };
+        cropDraw();
+      }
+    });
+
+    function end(e) {
+      crop.pts.delete(e.pointerId);
+      if (crop.pts.size < 2) crop.pinch = 0;
+      if (crop.pts.size === 0) { last = null; frame.classList.remove('grabbing'); }
+    }
+    frame.addEventListener('pointerup', end);
+    frame.addEventListener('pointercancel', end);
+
+    frame.addEventListener('wheel', e => {
+      if (!crop.img) return;
+      e.preventDefault();
+      crop.scale = Math.max(crop.base * 0.5, Math.min(crop.base * 8, crop.scale * (e.deltaY < 0 ? 1.08 : 0.93)));
+      document.getElementById('cropZoom').value = Math.round(crop.scale / crop.base * 100);
+      cropDraw();
+    }, { passive: false });
+  })();
+
+  window.addEventListener('resize', () => { if (document.body.classList.contains('crop-open')) cropOpen(); });
+
+  async function cropApply() {
+    if (!crop.img) return;
+    const effDpi = cropEffDpi();
+
+    // Výrez prekreslíme na stranu A4 presne tak, ako ho klient vidí v ráme
+    const cv = document.createElement('canvas');
+    cv.width = A4_W_PX; cv.height = A4_H_PX;
+    const ctx = cv.getContext('2d');
+    ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, A4_W_PX, A4_H_PX);
+    const k = A4_W_PX / crop.fw;
+    ctx.translate((crop.fw / 2 + crop.ox) * k, (crop.fh / 2 + crop.oy) * k);
+    ctx.rotate(crop.rot * Math.PI / 180);
+    ctx.scale(crop.scale * k, crop.scale * k);
+    ctx.drawImage(crop.img, -crop.img.width / 2, -crop.img.height / 2);
+
+    const name = crop.name;
+    cropClose();
+    showToast('Pripravujem stranu A4…');
+
+    const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.92));
+    if (!blob) { showToast('⚠ Prevod fotky zlyhal'); return; }
+    const jpeg = new Uint8Array(await blob.arrayBuffer());
+    const pdf = zpJpegToPdf(jpeg, A4_W_PX, A4_H_PX);
+    loadFile(new File([pdf], name + '.pdf', { type: 'application/pdf' }));
+    docState.fromPhoto = true;
+
+    if (effDpi < 120) showToast('⚠ Výrez má ' + effDpi + ' dpi — výtlačok môže byť neostrý');
+    else showToast('✓ Strana A4 je pripravená — skontrolujte náhľad');
   }
 
   function handleRealFile(e) {
@@ -3022,6 +3351,7 @@
     docState.url = URL.createObjectURL(file);
     docState.isReal = true;
     docState.name = file.name;
+    docState.fromPhoto = false;
     docState.page = 1;
 
     document.getElementById('uploadZone').classList.add('has-file');
@@ -3139,7 +3469,7 @@
   function removeFile() {
     if (docState.url) URL.revokeObjectURL(docState.url);
     if (pdfDoc) { try { pdfDoc.destroy(); } catch (e) {} pdfDoc = null; }
-    docState = { pages: 0, url: null, isReal: false, page: 1, name: null };
+    docState = { pages: 0, url: null, isReal: false, page: 1, name: null, fromPhoto: false };
     document.getElementById('realFileInput').value = '';
     document.getElementById('uploadZone').classList.remove('has-file');
     document.getElementById('uploadZone').style.display = '';
@@ -3369,7 +3699,8 @@
 
     let html = '';
     html += hasDoc
-      ? lcRow(true, 'PDF pripravené', [docState.name, pagesTxt].filter(Boolean).join(' · '))
+      ? lcRow(true, docState.fromPhoto ? 'Strana A4 z fotky' : 'PDF pripravené',
+              [docState.name, pagesTxt].filter(Boolean).join(' · '))
       : lcRow(false, 'PDF zatiaľ nenahrané', 'Vložte dokument v kroku 1');
     html += hasAddr
       ? lcRow(true, 'Adresa zadaná', addrText)
