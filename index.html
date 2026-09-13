@@ -580,6 +580,21 @@
   /* Voľba fotky — na počítači nedáva zmysel, tam sú súbory poruke */
   .photo-pick { display: none; margin-top: 10px; }
 
+  /* ============ NÁHĽAD DOKUMENTU ============ */
+  /* Rám má pomer A4 na stojato — taký, aký dokument naozaj je */
+  .doc-stage { width: 100%; aspect-ratio: 1 / 1.414; max-height: 74vh; }
+
+  /* Po nahratí dokumentu sa náhľad a adresát postavia vedľa seba */
+  /* Až od 1200 px — pod tým by sa adresát aj súhrn stlačili príliš */
+  @media (min-width: 1200px) {
+    .doc-row.has-doc { display: grid; grid-template-columns: minmax(280px, 340px) minmax(0, 1fr); gap: 16px; align-items: start; }
+    .doc-row.has-doc > .card { margin-bottom: 0; }
+  }
+  .doc-fallback {
+    background: #FDF6E3; border-bottom: 1px solid #EAD9A8; color: #6B5518;
+    font-size: 11.5px; line-height: 1.45; padding: 8px 14px;
+  }
+
   /* ============ OREZANIE FOTKY DO FORMÁTU A4 ============ */
   #cropOverlay {
     display: none; position: fixed; inset: 0; z-index: 200;
@@ -1239,6 +1254,8 @@
 
       <div class="send-layout">
         <div>
+          <!-- Náhľad a adresát: po nahratí dokumentu vedľa seba -->
+          <div class="doc-row" id="docRow">
           <!-- Step 1: Upload -->
           <div class="card" style="margin-bottom:16px;">
             <div class="card-header">
@@ -1289,7 +1306,8 @@
                     <button class="btn btn-secondary btn-sm" onclick="removeFile()" title="Odstrániť dokument a nahrať iný">✕ Nahrať iný</button>
                   </div>
                 </div>
-                <div id="docViewerBody" style="position:relative;background:#f1f5f9;height:520px;display:flex;align-items:center;justify-content:center;padding:14px;overflow:hidden;"></div>
+                <div id="docFallbackNote" class="doc-fallback" style="display:none;"></div>
+                <div id="docViewerBody" class="doc-stage" style="position:relative;background:#f1f5f9;display:flex;align-items:center;justify-content:center;padding:14px;overflow:hidden;"></div>
                 <div id="viewerFooter" style="display:none;padding:9px 14px;border-top:1px solid var(--border);font-size:11px;color:var(--text-muted);text-align:center;">
                   Strany prelistujte šípkami vyššie. Skontrolujte, či je dokument správne otočený a čitateľný.
                 </div>
@@ -1329,6 +1347,7 @@
               </div>
             </div>
           </div>
+          </div><!-- /doc-row -->
 
           <!-- Step 3: Configuration -->
           <div class="card">
@@ -2807,6 +2826,7 @@
     "Alebo vybrať fotku dokumentu": "Or choose a photo of the document",
     "Z fotky spravíme stranu A4 a vytlačíme ju. Dokument odfoťte zhora, na svetlom podklade a tak, aby bol na fotke celý.": "We turn the photo into an A4 page and print it. Photograph the document from above, on a light surface, with the whole document in frame.",
     "Strana A4 z fotky": "A4 page from a photo",
+    "Listovanie po stranách je vypnuté: v priečinku chýba pdf.min.js (a pdf.worker.min.js). Doplňte ich vedľa tohto súboru a náhľad bude ukazovať jednu stranu naraz.": "Page-by-page browsing is off: pdf.min.js (and pdf.worker.min.js) are missing from the folder. Put them next to this file and the preview will show one page at a time.",
     "Interaktívny produktový prototyp": "Interactive product prototype",
     "Zobraziť zásielky": "Show shipments", "Skryť zásielky": "Hide shipments",
     "Zrušiť dávku": "Cancel batch", "Štítok": "Label",
@@ -2858,6 +2878,7 @@
     "Alebo vybrať fotku dokumentu": "Vagy válasszon fényképet a dokumentumról",
     "Z fotky spravíme stranu A4 a vytlačíme ju. Dokument odfoťte zhora, na svetlom podklade a tak, aby bol na fotke celý.": "A fényképből A4-es oldalt készítünk és kinyomtatjuk. Fényképezze a dokumentumot felülről, világos háttéren, teljes egészében.",
     "Strana A4 z fotky": "A4-es oldal fényképből",
+    "Listovanie po stranách je vypnuté: v priečinku chýba pdf.min.js (a pdf.worker.min.js). Doplňte ich vedľa tohto súboru a náhľad bude ukazovať jednu stranu naraz.": "Az oldalankénti lapozás ki van kapcsolva: a mappából hiányzik a pdf.min.js (és a pdf.worker.min.js). Tegye őket e fájl mellé, és az előnézet egyszerre egy oldalt mutat.",
     "Interaktívny produktový prototyp": "Interaktív termékprototípus",
     "Zobraziť zásielky": "Küldemények megjelenítése", "Skryť zásielky": "Küldemények elrejtése",
     "Zrušiť dávku": "Tétel törlése", "Štítok": "Címke",
@@ -3399,12 +3420,25 @@
     const body = document.getElementById('docViewerBody');
     document.getElementById('inlineViewer').style.display = 'block';
     document.getElementById('viewerFooter').style.display = 'block';
+    const row = document.getElementById('docRow');
+    if (row) row.classList.add('has-doc');
+
+    // Bez pdf.js vieme ukázať len vstavaný náhľad prehliadača, ktorý sa roluje
+    const note = document.getElementById('docFallbackNote');
+    if (note) {
+      const missing = !pdfDoc && docState.isReal;
+      note.style.display = missing ? 'block' : 'none';
+      if (missing) note.textContent =
+        'Listovanie po stranách je vypnuté: v priečinku chýba pdf.min.js (a pdf.worker.min.js). '
+        + 'Doplňte ich vedľa tohto súboru a náhľad bude ukazovať jednu stranu naraz.';
+    }
 
     if (pdfDoc) {
       // pdf.js: celá strana sa vykreslí na canvas presne na veľkosť rámca — bez posúvadiel
       body.style.padding = '14px';
       body.innerHTML = '<canvas id="pdfCanvas" style="max-width:100%;max-height:100%;box-shadow:0 4px 16px rgba(0,0,0,.16);background:#fff;"></canvas>';
-      renderPdfPage();
+      // rámec dostane výšku až po prepočítaní pomeru strán
+      requestAnimationFrame(renderPdfPage);
     } else if (docState.isReal) {
       // Záloha bez pdf.js — vlastný náhľad prehliadača
       body.style.padding = '0';
@@ -3456,6 +3490,14 @@
     }).catch(() => {});
   }
 
+  /* Rámec sa prispôsobuje šírke stĺpca — po zmene okna stranu prekreslíme */
+  let docResizeT = null;
+  window.addEventListener('resize', () => {
+    if (!pdfDoc) return;
+    clearTimeout(docResizeT);
+    docResizeT = setTimeout(renderPdfPage, 150);
+  });
+
   function changePage(d) {
     const n = docState.page + d;
     if (n < 1 || n > docState.pages) return;
@@ -3467,6 +3509,10 @@
   }
 
   function removeFile() {
+    const row = document.getElementById('docRow');
+    if (row) row.classList.remove('has-doc');
+    const note = document.getElementById('docFallbackNote');
+    if (note) note.style.display = 'none';
     if (docState.url) URL.revokeObjectURL(docState.url);
     if (pdfDoc) { try { pdfDoc.destroy(); } catch (e) {} pdfDoc = null; }
     docState = { pages: 0, url: null, isReal: false, page: 1, name: null, fromPhoto: false };
