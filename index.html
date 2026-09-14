@@ -2770,8 +2770,14 @@
 
   // dynamické texty s číslami/cenami — pravidlá namiesto presnej zhody
   const ZP_RULES = [
+    [/^Adresu budeme čítať zo strany (\d+)\.$/, { en:'We will read the address from page $1.', hu:'A címet a(z) $1. oldalról olvassuk ki.' }],
+    [/^Kvalita tlače: (\d+) dpi — v poriadku$/,   { en:'Print quality: $1 dpi — fine',            hu:'Nyomtatási minőség: $1 dpi — rendben' }],
+    [/^Kvalita tlače: (\d+) dpi — výtlačok môže byť neostrý$/, { en:'Print quality: $1 dpi — the print may look blurry', hu:'Nyomtatási minőség: $1 dpi — a nyomat elmosódott lehet' }],
+    [/^⚠ Výrez má (\d+) dpi — výtlačok môže byť neostrý$/, { en:'⚠ The crop is $1 dpi — the print may look blurry', hu:'⚠ A kivágás $1 dpi — a nyomat elmosódott lehet' }],
+    [/^⚠ Fotka má nízke rozlíšenie \((\d+) dpi\) — výtlačok môže byť neostrý$/, { en:'⚠ The photo is low resolution ($1 dpi) — the print may look blurry', hu:'⚠ A fénykép alacsony felbontású ($1 dpi) — a nyomat elmosódott lehet' }],
     [/^Zobrazuje sa (\d+) z (\d+) položiek$/, { en:'Showing $1 of $2 items',   hu:'$2 tételből $1 látható' }],
     [/^Zobrazené (\d+) z (\d+) zásielok/,     { en:'Showing $1 of $2 shipments', hu:'$2 küldeményből $1 látható' }],
+    [/^Zostatok /, { en:'Balance ', hu:'Egyenleg ' }],
     [/^Kredit /,                              { en:'Credit ',                  hu:'Egyenleg ' }],
     [/^Dnes /,                                { en:'Today ',                   hu:'Ma ' }],
     [/^Zajtra /,                              { en:'Tomorrow ',                hu:'Holnap ' }],
@@ -2889,6 +2895,23 @@
     "Alebo vybrať fotku dokumentu": "Or choose a photo of the document",
     "Z fotky spravíme stranu A4 a vytlačíme ju. Dokument odfoťte zhora, na svetlom podklade a tak, aby bol na fotke celý.": "We turn the photo into an A4 page and print it. Photograph the document from above, on a light surface, with the whole document in frame.",
     "Strana A4 z fotky": "A4 page from a photo",
+    "Dobiť kredit": "Top up credit",
+    "Umiestnite dokument do rámu": "Fit the document into the frame",
+    "Ťahaním posuniete, štipnutím dvomi prstami priblížite. Rám má pomer strán A4.": "Drag to move it, pinch with two fingers to zoom. The frame has A4 proportions.",
+    "Otočiť": "Rotate", "Celé": "Fit all", "Použiť výrez": "Use this crop",
+    "Priblíženie": "Zoom", "Otvoriť menu": "Open menu",
+    "Predchádzajúca strana": "Previous page", "Ďalšia strana": "Next page",
+    "Čítacie pole — posuňte ho na adresu adresáta": "Reading field — move it onto the recipient's address",
+    "Vložte dokument, ktorý chcete poslať poštou": "Upload the document you want to post",
+    "Typ tlače a poštovné": "Print type and postage",
+    "Presuňte a zväčšite zelené pole na adresu adresáta.": "Move and resize the green field onto the recipient's address.",
+    "Ak ju máte inde, prelistujte na správnu stranu a posuňte pole tam.": "If it is elsewhere, page to the right one and move the field there.",
+    "Parametre šablóny": "Template settings",
+    "Pripravujem stranu A4…": "Preparing the A4 page…",
+    "✓ Strana A4 je pripravená — skontrolujte náhľad": "✓ The A4 page is ready — check the preview",
+    "⚠ Vyberte prosím fotku alebo obrázok": "⚠ Please choose a photo or an image",
+    "⚠ Fotku sa nepodarilo načítať": "⚠ The photo could not be loaded",
+    "⚠ Prevod fotky zlyhal": "⚠ Converting the photo failed",
     "Listovanie po stranách je vypnuté: v priečinku chýba pdf.min.js (a pdf.worker.min.js). Doplňte ich vedľa tohto súboru a náhľad bude ukazovať jednu stranu naraz.": "Page-by-page browsing is off: pdf.min.js (and pdf.worker.min.js) are missing from the folder. Put them next to this file and the preview will show one page at a time.",
     "Interaktívny produktový prototyp": "Interactive product prototype",
     "Zobraziť zásielky": "Show shipments", "Skryť zásielky": "Hide shipments",
@@ -2941,6 +2964,23 @@
     "Alebo vybrať fotku dokumentu": "Vagy válasszon fényképet a dokumentumról",
     "Z fotky spravíme stranu A4 a vytlačíme ju. Dokument odfoťte zhora, na svetlom podklade a tak, aby bol na fotke celý.": "A fényképből A4-es oldalt készítünk és kinyomtatjuk. Fényképezze a dokumentumot felülről, világos háttéren, teljes egészében.",
     "Strana A4 z fotky": "A4-es oldal fényképből",
+    "Dobiť kredit": "Egyenleg feltöltése",
+    "Umiestnite dokument do rámu": "Illessze a dokumentumot a keretbe",
+    "Ťahaním posuniete, štipnutím dvomi prstami priblížite. Rám má pomer strán A4.": "Húzással mozgatja, két ujjal csippentve nagyítja. A keret A4-es arányú.",
+    "Otočiť": "Forgatás", "Celé": "Teljes kép", "Použiť výrez": "Kivágás használata",
+    "Priblíženie": "Nagyítás", "Otvoriť menu": "Menü megnyitása",
+    "Predchádzajúca strana": "Előző oldal", "Ďalšia strana": "Következő oldal",
+    "Čítacie pole — posuňte ho na adresu adresáta": "Olvasási mező — húzza a címzett címére",
+    "Vložte dokument, ktorý chcete poslať poštou": "Töltse fel a dokumentumot, amelyet feladunk",
+    "Typ tlače a poštovné": "Nyomtatás típusa és postaköltség",
+    "Presuňte a zväčšite zelené pole na adresu adresáta.": "Húzza és nagyítsa a zöld mezőt a címzett címére.",
+    "Ak ju máte inde, prelistujte na správnu stranu a posuňte pole tam.": "Ha máshol van, lapozzon a megfelelő oldalra és tegye oda a mezőt.",
+    "Parametre šablóny": "Sablon paraméterei",
+    "Pripravujem stranu A4…": "A4-es oldal előkészítése…",
+    "✓ Strana A4 je pripravená — skontrolujte náhľad": "✓ Az A4-es oldal kész — ellenőrizze az előnézetet",
+    "⚠ Vyberte prosím fotku alebo obrázok": "⚠ Válasszon fényképet vagy képet",
+    "⚠ Fotku sa nepodarilo načítať": "⚠ A fényképet nem sikerült betölteni",
+    "⚠ Prevod fotky zlyhal": "⚠ A fénykép átalakítása nem sikerült",
     "Listovanie po stranách je vypnuté: v priečinku chýba pdf.min.js (a pdf.worker.min.js). Doplňte ich vedľa tohto súboru a náhľad bude ukazovať jednu stranu naraz.": "Az oldalankénti lapozás ki van kapcsolva: a mappából hiányzik a pdf.min.js (és a pdf.worker.min.js). Tegye őket e fájl mellé, és az előnézet egyszerre egy oldalt mutat.",
     "Interaktívny produktový prototyp": "Interaktív termékprototípus",
     "Zobraziť zásielky": "Küldemények megjelenítése", "Skryť zásielky": "Küldemények elrejtése",
@@ -2980,13 +3020,14 @@
       n.nodeValue = raw.replace(key, v);
     });
     // atribúty
-    const scope = root.nodeType === 1 ? [root, ...root.querySelectorAll('[placeholder],[title]')] : [];
+    const scope = root.nodeType === 1 ? [root, ...root.querySelectorAll('[placeholder],[title],[aria-label]')] : [];
     scope.forEach(el => {
       if (!el.getAttribute) return;
-      ['placeholder','title'].forEach(a => {
+      ['placeholder','title','aria-label'].forEach(a => {
         const raw = el.getAttribute(a); if (!raw) return;
         const v = d[raw.trim()]; if (v === undefined) return;
-        if (!el.dataset['sk_' + a]) el.dataset['sk_' + a] = raw;
+        const memo = 'data-sk-' + a;
+        if (!el.hasAttribute(memo)) el.setAttribute(memo, raw);
         el.setAttribute(a, v);
       });
     });
@@ -2996,7 +3037,12 @@
     const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
     const nodes = []; while (w.nextNode()) nodes.push(w.currentNode);
     nodes.forEach(n => { if (n.__sk !== undefined) { n.nodeValue = n.__sk; n.__sk = undefined; } });
-    root.querySelectorAll('[data-sk_placeholder],[data-sk_title]').forEach(el => {
+    root.querySelectorAll('[data-sk-placeholder],[data-sk-title],[data-sk-aria-label],[data-sk_placeholder],[data-sk_title]').forEach(el => {
+      ['placeholder','title','aria-label'].forEach(a => {
+        const memo = 'data-sk-' + a;
+        if (el.hasAttribute(memo)) { el.setAttribute(a, el.getAttribute(memo)); el.removeAttribute(memo); }
+      });
+      // pozostatky zo staršieho zápisu
       if (el.dataset.sk_placeholder) { el.setAttribute('placeholder', el.dataset.sk_placeholder); delete el.dataset.sk_placeholder; }
       if (el.dataset.sk_title) { el.setAttribute('title', el.dataset.sk_title); delete el.dataset.sk_title; }
     });
@@ -4253,7 +4299,8 @@
     const note = document.getElementById('ztFieldNote');
     if (!note || !ztPdf) return;
     note.innerHTML = (ztState.pages > 1)
-      ? 'Adresu budeme čítať zo <b>strany ' + ztState.fieldPage + '</b>. Ak ju máte inde, prelistujte na správnu stranu a posuňte pole tam.'
+      ? '<b>Adresu budeme čítať zo strany ' + ztState.fieldPage + '.</b> '
+        + '<span>Ak ju máte inde, prelistujte na správnu stranu a posuňte pole tam.</span>'
       : '';
   }
 
